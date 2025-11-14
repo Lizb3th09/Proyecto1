@@ -35,7 +35,9 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 ## GET - consultar
 
 ver citas - http://localhost:3000/data/citas
+
 ver doctores - http://localhost:3000/data/doctores
+
 Ver pacientes - http://localhost:3000/data/pacientes
 
 --- 
@@ -43,13 +45,17 @@ Ver pacientes - http://localhost:3000/data/pacientes
 ## GET - consultar por id
 
 ver citas por id - http://localhost:3000/data/citas/C002
+
 ver doctores por id - http://localhost:3000/data/doctores/D001
+
 Ver pacientes por id - http://localhost:3000/data/pacientes/P003
 
 --- 
 
 VER historial paciente - http://localhost:3000/data/pacientes/P001/historial
+
 ver agenda de un doctor - http://localhost:3000/data/citas/doctor/D001
+
 ver por especialidad - http://localhost:3000/data/doctores/especialidad/ginecologo
 
 --- 
@@ -57,6 +63,7 @@ ver por especialidad - http://localhost:3000/data/doctores/especialidad/ginecolo
 ## GET - ESTADISTICAS
 
 ver doctor con mas citas  - http://localhost:3000/data/estadisticas/doctores
+
 ver especialidad mas solicitada - http://localhost:3000/data/estadisticas/especialidades
 
 --- 
@@ -64,8 +71,11 @@ ver especialidad mas solicitada - http://localhost:3000/data/estadisticas/especi
 ## GET- BUSQUEDAS AVANZADAS
 
 ver por citas por fecha - http://localhost:3000/data/citas?fecha=2025-11-19
+
 ver cita por fecha y estado - http://localhost:3000/data/citas?fecha=2025-11-19&estado=programada
+
 ver citas programadas - http://localhost:3000/data/citas?estado=programada
+
 ver doctores disponibles a una fecha y hora - http://localhost:3000/data/doctores/disponibles?fecha=2025-11-21&hora=12:00
 
 
@@ -136,7 +146,9 @@ modificar pacientes - http://localhost:3000/data/pacientes/P003
 
 
 Eliminar citas - http://localhost:3000/data/citas/C006
+
 Eliminar doctores - http://localhost:3000/data/doctores/D001
+
 Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 
 
