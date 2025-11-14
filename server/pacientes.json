@@ -1,0 +1,25 @@
+{
+  "pacientes": [
+    {
+      "id": "P001",
+      "nombre": "Maria",
+      "email": "maria@gmail.com",
+      "telefono": "555-0101",
+      "edad": 35
+    },
+    {
+      "id": "P002",
+      "nombre": "Ana",
+      "email": "ana@gmail.com",
+      "telefono": "666-0101",
+      "edad": 25
+    },
+    {
+      "id": "P003",
+      "nombre": "juliono ",
+      "email": "wow@gmail.com",
+      "telefono": "666-6666",
+      "edad": 60
+    }
+  ]
+}
