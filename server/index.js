@@ -102,6 +102,40 @@ app.get('/data/doctores', (req, res) => {
   res.json({ success: true, data: obtenerDoctores() });
 });
 
+
+// GET - doctores disponibles por fecha y hora
+app.get('/data/doctores/disponibles', (req, res) => {
+  const { fecha, hora } = req.query;
+
+  if (!fecha || !hora) {
+    return res.status(400).json({ success: false, message: 'Faltan parámetros: fecha y hora' });
+  }
+
+  const fechaObj = new Date(fecha);
+  const diasSemana = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const diaTexto = diasSemana[fechaObj.getDay()];
+
+  const doctores = obtenerDoctores();
+  const citas = obtenerCitas();
+
+  const disponibles = doctores.filter(d => {
+    if (!d.diasDisponibles.includes(diaTexto)) return false;
+    if (hora < d.horarioInicio || hora >= d.horarioFin) return false;
+
+    const ocupado = citas.some(c =>
+      c.doctorId === d.id &&
+      c.fecha === fecha &&
+      c.hora === hora &&
+      c.estado !== 'cancelada'
+    );
+
+    return !ocupado;
+  });
+
+  res.json({ success: true, data: disponibles });
+});
+
+
 // GET - doctor por ID
 app.get('/data/doctores/:id', (req, res) => {
   const doctor = obtenerDoctorPorId(req.params.id);
@@ -152,10 +186,22 @@ app.get('/data/doctores/especialidad/:especialidad', (req, res) => {
 
 // CRUD CITAS
 
-// GET - todas las citas
+// GET - todas las citas y por fecha
 app.get('/data/citas', (req, res) => {
-  res.json({ success: true, data: obtenerCitas() });
+  const { fecha, estado } = req.query;
+  let citas = obtenerCitas();
+
+  if (fecha) {
+    citas = citas.filter(c => c.fecha === fecha);
+  }
+
+  if (estado) {
+    citas = citas.filter(c => c.estado.toLowerCase() === estado.toLowerCase());
+  }
+
+  res.json({ success: true, data: citas });
 });
+
 
 // GET - cita por ID
 app.get('/data/citas/:id', (req, res) => {
@@ -300,9 +346,7 @@ app.get('/data/estadisticas/especialidades', (req, res) => {
   });
 });
 
-// Busquedas avanzadas
-
-
+// 
 
 
 
