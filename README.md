@@ -145,7 +145,7 @@ modificar pacientes - http://localhost:3000/data/pacientes/P003
 ## DELETE - Eliminar
 
 
-Eliminar citas - http://localhost:3000/data/citas/C006
+Eliminar citas - http://localhost:3000/data/citas/C005
 
 Eliminar doctores - http://localhost:3000/data/doctores/D001
 
