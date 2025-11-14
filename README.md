@@ -28,5 +28,4 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 
 ---
 
-## 🗂️ Estructura del Proyecto
 
