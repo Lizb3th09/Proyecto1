@@ -21,22 +21,26 @@ const escribirDB = (data) => {
   }
 };
 
-// OBTENER
+// GET
 const obtenerCitas = () => leerDB().citas;
-// Obtener por ID
 const obtenerCitaPorId = (id) => leerDB().citas.find(c => c.id === id);
 
-// CREAR
-const crearCita = (id, pacienteId, doctorId, fecha, hora, motivo, estado) => {
+// POST - CORREGIDO
+const crearCita = (pacienteId, doctorId, fecha, hora, motivo, estado) => {
   const db = leerDB();
-  const nuevaCita = { id, pacienteId, doctorId, fecha, hora, motivo, estado };
+
+  // Generar ID tipo C001
+  const nuevoIdNumero = db.citas.length > 0
+    ? Math.max(...db.citas.map(c => parseInt(c.id.slice(1)))) + 1 : 1;
+  const nuevoId = "C" + String(nuevoIdNumero).padStart(3, "0");
+
+  const nuevaCita = {id: nuevoId,pacienteId,doctorId,fecha,hora,motivo,estado };
   db.citas.push(nuevaCita);
   escribirDB(db);
-  return nuevaCita;
+  return nuevaCita; 
 };
 
-
-// ELIMINAR
+// DELETE
 const eliminarCita = (id) => {
   const db = leerDB();
   const index = db.citas.findIndex(c => c.id === id);
@@ -46,7 +50,7 @@ const eliminarCita = (id) => {
   return true;
 };
 
-// CANCELAR 
+//PUT - Cancelar
 const cancelarCita = (id) => {
   const db = leerDB();
   const index = db.citas.findIndex(c => c.id === id);

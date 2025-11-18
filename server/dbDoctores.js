@@ -21,41 +21,45 @@ const escribirDB = (data) => {
   }
 };
 
-// OBTENER Todos
+// GET
 const obtenerDoctores = () => leerDB().doctores;
-
-
-// Obtener por ID
 const obtenerDoctorPorId = (id) => leerDB().doctores.find(d => d.id === id);
 
-// CREAR
-const crearDoctor = (id, nombre, especialidad, horarioInicio, horarioFin, diasDisponibles) => {
+// POST - CORREGIDO
+const crearDoctor = (nombre, especialidad, horarioInicio, horarioFin, diasDisponibles) => {
   const db = leerDB();
-  const nuevoDoctor = { id, nombre, especialidad, horarioInicio, horarioFin, diasDisponibles };
+
+  // Generar ID tipo D001
+  const nuevoIdNumero = db.doctores.length > 0
+    ? Math.max(...db.doctores.map(d => parseInt(d.id.slice(1)))) + 1: 1;
+  const nuevoId = "D" + String(nuevoIdNumero).padStart(3, "0");
+
+  const nuevoDoctor = {id: nuevoId,nombre,especialidad,horarioInicio,horarioFin,diasDisponibles};
   db.doctores.push(nuevoDoctor);
   escribirDB(db);
   return nuevoDoctor;
 };
 
-const actualizarDoctor = (id, cambios) => {
+
+// PUT - corregido
+const actualizarDoctor = ( id,nombre, especialidad, horarioInicio, horarioFin, diasDisponibles) => {
   const db = leerDB();
   const index = db.doctores.findIndex(d => d.id === id);
+
   if (index === -1) return null;
-
-  const doctor = db.doctores[index];
-
-  if (cambios.nombre !== undefined) doctor.nombre = cambios.nombre;
-  if (cambios.especialidad !== undefined) doctor.especialidad = cambios.especialidad;
-  if (cambios.horarioInicio !== undefined) doctor.horarioInicio = cambios.horarioInicio;
-  if (cambios.horarioFin !== undefined) doctor.horarioFin = cambios.horarioFin;
-  if (cambios.diasDisponibles !== undefined) doctor.diasDisponibles = cambios.diasDisponibles;
+  if (nombre) db.doctores[index].nombre = nombre;
+  if (especialidad) db.doctores[index].especialidad = especialidad;
+  if (horarioInicio) db.doctores[index].horarioInicio = horarioInicio;
+  if (horarioFin) db.doctores[index].horarioFin = horarioFin;
+  if (diasDisponibles) db.doctores[index].diasDisponibles = diasDisponibles;
 
   escribirDB(db);
-  return doctor;
+  return db.doctores[index];
 };
 
 
-// ELIMINAR
+
+// DELETE
 const eliminarDoctor = (id) => {
   const db = leerDB();
   const index = db.doctores.findIndex(d => d.id === id);

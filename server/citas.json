@@ -4,45 +4,27 @@
       "id": "C001",
       "pacienteId": "P001",
       "doctorId": "D001",
-      "fecha": "2025-11-19",
-      "hora": "11:00",
-      "motivo": "Revisión general",
+      "fecha": "2025-11-21",
+      "hora": "10:00",
+      "motivo": "Consulta general",
       "estado": "programada"
     },
     {
       "id": "C002",
-      "pacienteId": "P001",
-      "doctorId": "D002",
-      "fecha": "2025-11-14",
-      "hora": "13:00",
-      "motivo": "Revisión general",
+      "pacienteId": "P002",
+      "doctorId": "D001",
+      "fecha": "2025-11-21",
+      "hora": "08:00",
+      "motivo": "Consulta general",
       "estado": "programada"
     },
     {
       "id": "C003",
-      "pacienteId": "P002",
-      "doctorId": "D002",
-      "fecha": "2025-11-14",
-      "hora": "11:00",
-      "motivo": "Revisión general",
-      "estado": "programada"
-    },
-    {
-      "id": "C004",
-      "pacienteId": "P002",
-      "doctorId": "D001",
-      "fecha": "2025-11-18",
-      "hora": "14:00",
-      "motivo": "Revisión general",
-      "estado": "programada"
-    },
-    {
-      "id": "C005",
       "pacienteId": "P003",
       "doctorId": "D002",
       "fecha": "2025-11-21",
-      "hora": "12:00",
-      "motivo": "Revisión general",
+      "hora": "13:00",
+      "motivo": "Consulta general",
       "estado": "cancelada"
     }
   ]

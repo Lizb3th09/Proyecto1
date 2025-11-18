@@ -2,24 +2,27 @@
   "pacientes": [
     {
       "id": "P001",
-      "nombre": "Maria",
-      "email": "maria@gmail.com",
-      "telefono": "555-0101",
-      "edad": 35
+      "nombre": "lalo",
+      "email": "lalo.perez@example.com",
+      "telefono": "333333",
+      "fecha": "11-11-2025",
+      "edad": 24
     },
     {
       "id": "P002",
-      "nombre": "Ana",
-      "email": "ana@gmail.com",
-      "telefono": "666-0101",
-      "edad": 25
+      "nombre": "lila",
+      "email": "lili.perez@example.com",
+      "telefono": "333333",
+      "fecha": "11-10-2025",
+      "edad": 24
     },
     {
       "id": "P003",
-      "nombre": "juliono ",
-      "email": "wow@gmail.com",
-      "telefono": "666-6666",
-      "edad": 60
+      "nombre": "julio",
+      "email": "julio.perez@example.com",
+      "telefono": "333333",
+      "fecha": "11-10-2025",
+      "edad": 3
     }
   ]
 }

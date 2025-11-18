@@ -21,38 +21,48 @@ const escribirDB = (data) => {
   }
 };
 
-// OBTENER
+// GET
 const obtenerPacientes = () => leerDB().pacientes;
 const obtenerPacientePorId = (id) => leerDB().pacientes.find(p => p.id === id);
 
-// CREAR
-const crearPaciente = (id, nombre, email, telefono, edad) => {
+// POST CORREGIDO
+const crearPaciente = (nombre, email, telefono, fecha,edad) => {
   const db = leerDB();
-  const nuevoPaciente = { id, nombre, email, telefono, edad };
+
+  // IDs tipo P001
+  const nuevoIdNumero = db.pacientes.length > 0
+    ? Math.max(...db.pacientes.map(p => parseInt(p.id.slice(1)))) + 1: 1;
+  const nuevoId = "P" + String(nuevoIdNumero).padStart(3, "0");
+
+  const nuevoPaciente = { id: nuevoId, nombre, email, telefono,fecha, edad };
   db.pacientes.push(nuevoPaciente);
   escribirDB(db);
   return nuevoPaciente;
 };
 
-// ACTUALIZAR
-const actualizarPaciente = (id, datosActualizados) => {
+
+
+// PUT - CORREGIDO
+const actualizarPaciente = (id, nombre,email,telefono,fecha,edad) => {
   const db = leerDB();
   const index = db.pacientes.findIndex(p => p.id === id);
+  
   if (index === -1) return null;
-
-  if (datosActualizados.nombre) db.pacientes[index].nombre = datosActualizados.nombre;
-  if (datosActualizados.email) db.pacientes[index].email = datosActualizados.email;
-  if (datosActualizados.telefono) db.pacientes[index].telefono = datosActualizados.telefono;
-  if (datosActualizados.edad != null) db.pacientes[index].edad = datosActualizados.edad;
+  if (nombre) db.pacientes[index].nombre = nombre;
+  if (email) db.pacientes[index].email = email;
+  if (telefono) db.pacientes[index].telefono = telefono;
+  if (fecha) db.pacientes[index].fecha = fecha;
+  if (edad != null) db.pacientes[index].edad = edad;
 
   escribirDB(db);
   return db.pacientes[index];
 };
 
-// ELIMINAR
+// DELETE 
 const eliminarPaciente = (id) => {
   const db = leerDB();
   const index = db.pacientes.findIndex(p => p.id === id);
+  
   if (index === -1) return false;
   db.pacientes.splice(index, 1);
   escribirDB(db);

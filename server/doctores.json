@@ -2,46 +2,37 @@
   "doctores": [
     {
       "id": "D001",
-      "nombre": "Dr. Pedro",
-      "especialidad": "pediatra",
-      "horarioInicio": "10:00",
-      "horarioFin": "18:00",
+      "nombre": "Dra. María López",
+      "especialidad": "cirujano",
+      "horarioInicio": "08:00",
+      "horarioFin": "16:00",
       "diasDisponibles": [
         "Lunes",
         "Martes",
-        "Miércoles"
+        "Viernes"
       ]
     },
     {
       "id": "D002",
-      "nombre": "Dr. jaime",
-      "especialidad": "neurologo",
-      "horarioInicio": "07:00",
-      "horarioFin": "13:00",
+      "nombre": "Dra. xenia",
+      "especialidad": "cirujano",
+      "horarioInicio": "08:00",
+      "horarioFin": "16:00",
       "diasDisponibles": [
-        "Jueves",
+        "Lunes",
+        "Miercoles",
         "Viernes"
       ]
     },
     {
       "id": "D003",
-      "nombre": "Dr. cc",
-      "especialidad": "ginecologo",
-      "horarioInicio": "07:00",
-      "horarioFin": "13:00",
+      "nombre": "Dr. yeni",
+      "especialidad": "pediatra",
+      "horarioInicio": "08:00",
+      "horarioFin": "16:00",
       "diasDisponibles": [
-        "Martes",
-        "Miércoles"
-      ]
-    },
-    {
-      "id": "D004",
-      "nombre": "Dr. ani",
-      "especialidad": "neurologo",
-      "horarioInicio": "07:00",
-      "horarioFin": "11:00",
-      "diasDisponibles": [
-        "Jueves",
+        "Lunes",
+        "Miercoles",
         "Viernes"
       ]
     }
