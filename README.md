@@ -82,14 +82,16 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 
 # PAGINA DOCTORES
 
-
-<img width="1915" height="925" alt="image" src="https://github.com/user-attachments/assets/18912a37-cc93-43ee-b7f1-6193fa624db2" />
 <img width="1911" height="918" alt="image" src="https://github.com/user-attachments/assets/b2db3c57-6acb-4ea9-9458-7c389592e3c9" />
+<img width="1915" height="925" alt="image" src="https://github.com/user-attachments/assets/18912a37-cc93-43ee-b7f1-6193fa624db2" />
+
 <img width="1911" height="921" alt="image" src="https://github.com/user-attachments/assets/38f05877-4f70-433a-bacc-ed7979d3b8f0" />
 <img width="1907" height="913" alt="image" src="https://github.com/user-attachments/assets/6f93d72d-b098-4550-a066-d7357e0ea9bf" />
-<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/88851ac3-ceb3-4693-913d-9219a915fabc" />
 
 <img width="1910" height="922" alt="image" src="https://github.com/user-attachments/assets/18ac5dda-a167-4d8b-a4bd-0a38076adfb9" />
+<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/88851ac3-ceb3-4693-913d-9219a915fabc" />
+
+
 <img width="1916" height="923" alt="image" src="https://github.com/user-attachments/assets/e9a7d079-8f12-41d9-b705-e27805e1c15b" />
 
 <img width="1904" height="919" alt="image" src="https://github.com/user-attachments/assets/55918ea2-d001-420a-aef9-90c35f8ecca1" />
