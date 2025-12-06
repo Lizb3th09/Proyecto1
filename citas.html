@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .floating-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: width 0.3s ease;
+            width: 50px;
+            z-index: 9999;
+        }
+
+        .menu-content {
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-content a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #8dc6da;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-content a:hover {
+            background-color: rgb(20, 58, 91);
+        }
+
+        .menu-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #04374d;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .floating-menu.open {
+            width: 200px;
+        }
+
+        .floating-menu.open .menu-content {
+            display: flex;
+        }
+
+        .contenedor-principal {
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 100px;
+        }
+
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .cita-form,
+        .lista-citas-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cita-form {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .lista-citas-container {
+            max-width: 900px;
+            width: 100%;
+            background: #ceebf2;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .cita-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .cita-form input,
+        .cita-form select,
+        .cita-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 2px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+
+        .cita-form input[type="submit"] {
+            background: #427c89;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .cita-form input[type="submit"]:hover:not(:disabled) {
+            background: #3b6a75;
+        }
+
+        #mensajeCita {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        #listaCitas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .cita-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .botones-cita {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .botones-cita button {
+            flex: 1;
+            padding: 7px;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .eliminar {
+            background: #ac2828;
+        }
+
+        .eliminar:hover {
+            background: #d32f2f;
+        }
+
+        .cancelar {
+            background: #f39c12;
+        }
+
+        .cancelar:hover {
+            background: #e67e22;
+        }
+
+        /* VALIDACION */
+        input.error,
+        select.error,
+        textarea.error {
+            border: 2px solid red;
+        }
+
+        input.valid,
+        select.valid,
+        textarea.valid {
+            border: 2px solid green;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+            display: none;
+        }
+
+        input:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        #modalEliminar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #modalEliminar.show {
+            display: block;
+            opacity: 1;
+        }
+
+        #modalEliminar .modal-fondo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+        }
+
+        #modalEliminar .modal-contenido {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            width: 320px;
+            text-align: center;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        #modalEliminar .modal-contenido p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #modalEliminar .modal-botones button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+
+        #modalEliminar #confirmEliminar {
+            color: #fff;
+        }
+
+        #modalEliminar #cancelEliminar {
+            background: #555;
+            color: #fff;
+        }
+
+        #modalEliminar #cancelEliminar:hover {
+            background: #333;
+        }
+
+        /* Estilos mejorados para filtros */
+        .filtros-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+            background: #e0f7fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .filtro-item {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 200px;
+        }
+
+        .filtro-item label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #055160;
+        }
+
+        .filtro-item input,
+        .filtro-item select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+            transition: 0.3s;
+        }
+
+        .filtro-item input:focus,
+        .filtro-item select:focus {
+            border-color: #0277bd;
+            box-shadow: 0 0 5px rgba(2, 119, 189, 0.5);
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="floating-menu" id="floatingMenu">
+        <div class="menu-btn" id="menuBtn">☰</div>
+        <div class="menu-content">
+            <a href="pacientes.html">Pacientes</a>
+            <a href="doctores.html">Doctores</a>
+            <a href="citas.html">Citas</a>
+            <a href="index.html">Inicio</a>
+        </div>
+    </div>
+
+    <div class="contenedor-principal">
+        <div class="contenedor">
+
+            <form class="cita-form" id="formCita">
+                <h2>Registrar Cita Médica</h2>
+
+                <label>Paciente</label>
+                <select id="pacienteId" required></select>
+                <span class="error-message" id="errorPaciente"></span>
+
+                <label>Doctor</label>
+                <select id="doctorId" required></select>
+                <span class="error-message" id="errorDoctor"></span>
+
+                <label>Fecha (YYYY-MM-DD)</label>
+                <input type="date" id="fecha" required>
+                <span class="error-message" id="errorFecha"></span>
+
+                <label>Hora (HH:MM)</label>
+                <input type="time" id="hora" required>
+                <span class="error-message" id="errorHora"></span>
+
+                <label>Motivo</label>
+                <textarea id="motivo" maxlength="200" required></textarea>
+                <span class="error-message" id="errorMotivo"></span>
+
+                <input type="submit" value="Registrar Cita" id="btnGuardar" disabled>
+                <div id="mensajeCita"></div>
+            </form>
+
+            <div class="lista-citas-container">
+                <h2>Citas Registradas</h2>
+
+                <div class="filtros-container">
+                    <div class="filtro-item">
+                        <label for="filtroFecha">Por Fecha:</label>
+                        <input type="date" id="filtroFecha">
+                    </div>
+
+                    <div class="filtro-item">
+                        <label for="filtroEstado">Por Estado:</label>
+                        <select id="filtroEstado">
+                            <option value="">Todos</option>
+                            <option value="programada">Programada</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+                    </div>
+
+                    <div class="filtro-item">
+                        <label for="filtroDoctor">Por Doctor:</label>
+                        <select id="filtroDoctor">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div id="listaCitas"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Eliminar / Cancelar -->
+    <div id="modalEliminar">
+        <div class="modal-fondo"></div>
+        <div class="modal-contenido">
+            <p id="modalMensaje">¿Estás seguro?</p>
+            <div class="modal-botones">
+                <button id="confirmEliminar">Sí</button>
+                <button id="cancelEliminar">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menu = document.getElementById('floatingMenu');
+        document.getElementById('menuBtn').onclick = () => menu.classList.toggle('open');
+
+        const pacienteSelect = document.getElementById("pacienteId");
+        const doctorSelect = document.getElementById("doctorId");
+        const fechaInput = document.getElementById("fecha");
+        const horaInput = document.getElementById("hora");
+        const motivoInput = document.getElementById("motivo");
+        const mensajeDiv = document.getElementById("mensajeCita");
+        const listaCitasDiv = document.getElementById("listaCitas");
+        const formCita = document.getElementById("formCita");
+        const btnGuardar = document.getElementById("btnGuardar");
+
+        const filtroFecha = document.getElementById("filtroFecha");
+        const filtroEstado = document.getElementById("filtroEstado");
+        const filtroDoctor = document.getElementById("filtroDoctor");
+
+        let doctores = [];
+        let pacientes = [];
+
+        async function cargarDatos() {
+            const respPacientes = await fetch("http://localhost:3000/data/pacientes");
+            pacientes = (await respPacientes.json()).data;
+            pacienteSelect.innerHTML =
+                '<option value="">Selecciona paciente</option>' +
+                pacientes.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
+
+            const respDoctores = await fetch("http://localhost:3000/data/doctores");
+            doctores = (await respDoctores.json()).data;
+            doctorSelect.innerHTML =
+                '<option value="">Selecciona doctor</option>' +
+                doctores.map(d => `<option value="${d.id}">${d.nombre} (${d.especialidad})</option>`).join('');
+
+            filtroDoctor.innerHTML =
+                '<option value="">Todos</option>' +
+                doctores.map(d => `<option value="${d.id}">${d.nombre} (${d.especialidad})</option>`).join('');
+        }
+
+        async function cargarCitas() {
+            const resp = await fetch("http://localhost:3000/data/citas");
+            const citas = (await resp.json()).data || [];
+
+            let citasFiltradas = aplicarFiltros(citas);
+
+            if (!citasFiltradas.length) {
+                listaCitasDiv.innerHTML = "<p>No hay citas que coincidan con los filtros.</p>";
+                return;
+            }
+
+            listaCitasDiv.innerHTML = citasFiltradas.map(c => {
+                const id = c.id || c._id;
+                const cancelada = c.estado === "cancelada";
+
+                const paciente = pacientes.find(p => String(p.id) === String(c.pacienteId));
+                const doctor = doctores.find(d => String(d.id) === String(c.doctorId));
+
+                const nombrePaciente = paciente ? paciente.nombre : "Desconocido";
+                const nombreDoctor = doctor ? `${doctor.nombre || "Desconocido"} (${doctor.especialidad || "Sin especialidad"})` : "Desconocido";
+
+                return `
+                    <div class="cita-card" style="background:${cancelada ? '#f8d7da' : '#fff'};">
+                        <p><b>ID:</b> ${id}</p>
+                        <p><b>Paciente:</b> ${nombrePaciente}</p>
+                        <p><b>Doctor:</b> ${nombreDoctor}</p>
+                        <p><b>Fecha:</b> ${c.fecha}</p>
+                        <p><b>Hora:</b> ${c.hora}</p>
+                        <p><b>Motivo:</b> ${c.motivo}</p>
+                        <p><b>Estado:</b> ${c.estado === "cancelada" ? "Cancelada" : "Programada"}</p>
+                        <div class="botones-cita">
+                            <button class="eliminar" onclick='eliminarCita("${id}")'>Eliminar</button>
+                            <button class="cancelar" onclick='cancelarCita("${id}")' ${cancelada ? "disabled" : ""}>Cancelar</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function aplicarFiltros(citas) {
+            const fechaFiltro = filtroFecha.value;
+            const estadoFiltro = filtroEstado.value;
+            const doctorFiltro = filtroDoctor.value;
+
+            return citas.filter(c => {
+                let coincide = true;
+
+                if (fechaFiltro && c.fecha !== fechaFiltro) coincide = false;
+                if (estadoFiltro && c.estado !== estadoFiltro) coincide = false;
+                if (doctorFiltro && String(c.doctorId) !== doctorFiltro) coincide = false;
+
+                return coincide;
+            });
+        }
+
+        function validarCampo(campo, errorSpan, mensaje) {
+            if (!campo.value.trim()) {
+                campo.classList.add("error");
+                campo.classList.remove("valid");
+                errorSpan.textContent = mensaje;
+                errorSpan.style.display = "block";
+                return false;
+            } else {
+                campo.classList.remove("error");
+                campo.classList.add("valid");
+                errorSpan.style.display = "none";
+                return true;
+            }
+        }
+
+        function validarFormulario() {
+            const v1 = validarCampo(pacienteSelect, document.getElementById("errorPaciente"), "Selecciona un paciente");
+            const v2 = validarCampo(doctorSelect, document.getElementById("errorDoctor"), "Selecciona un doctor");
+            const v3 = validarCampo(fechaInput, document.getElementById("errorFecha"), "Selecciona una fecha");
+            const v4 = validarCampo(horaInput, document.getElementById("errorHora"), "Selecciona una hora");
+            const v5 = validarCampo(motivoInput, document.getElementById("errorMotivo"), "Escribe el motivo");
+
+            btnGuardar.disabled = !(v1 && v2 && v3 && v4 && v5);
+        }
+
+        [pacienteSelect, doctorSelect, fechaInput, horaInput, motivoInput].forEach(campo => {
+            campo.addEventListener("input", validarFormulario);
+            campo.addEventListener("change", validarFormulario);
+        });
+
+        formCita.addEventListener("submit", async e => {
+            e.preventDefault();
+            if (btnGuardar.disabled) return;
+
+            const nuevaCita = {
+                pacienteId: pacienteSelect.value,
+                doctorId: doctorSelect.value,
+                fecha: fechaInput.value,
+                hora: horaInput.value,
+                motivo: motivoInput.value.trim()
+            };
+
+            const resp = await fetch("http://localhost:3000/data/citas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(nuevaCita)
+            });
+
+            const data = await resp.json();
+            mensajeDiv.textContent = data.message;
+            mensajeDiv.style.color = resp.ok ? "green" : "red";
+
+            if (resp.ok) {
+                formCita.reset();
+                [pacienteSelect, doctorSelect, fechaInput, horaInput, motivoInput].forEach(c => c.classList.remove("valid"));
+                btnGuardar.disabled = true;
+                cargarCitas();
+            }
+        });
+
+        // Modal
+        const modalEliminar = document.getElementById("modalEliminar");
+        const modalMensaje = document.getElementById("modalMensaje");
+        const btnConfirmEliminar = document.getElementById("confirmEliminar");
+        const btnCancelEliminar = document.getElementById("cancelEliminar");
+
+        let citaSeleccionada = null;
+        let accionActual = "";
+
+        function mostrarModal(id, accion) {
+            citaSeleccionada = id;
+            accionActual = accion;
+
+            if (accion === "eliminar") {
+                modalMensaje.textContent = "¿Eliminar esta cita?";
+                btnConfirmEliminar.style.background = "#d32f2f";
+            } else if (accion === "cancelar") {
+                modalMensaje.textContent = "¿Cancelar esta cita?";
+                btnConfirmEliminar.style.background = "#f39c12";
+            }
+
+            modalEliminar.classList.add("show");
+        }
+
+        btnCancelEliminar.onclick = () => modalEliminar.classList.remove("show");
+
+        btnConfirmEliminar.onclick = async () => {
+            if (!citaSeleccionada) return;
+            if (accionActual === "eliminar") {
+                await fetch(`http://localhost:3000/data/citas/${citaSeleccionada}`, { method: "DELETE" });
+            } else if (accionActual === "cancelar") {
+                await fetch(` http://localhost:3000/data/citas/${citaSeleccionada}/cancelar`, { method: "PUT" });
+            }
+            modalEliminar.classList.remove("show");
+            cargarCitas();
+        };
+
+        window.eliminarCita = id => mostrarModal(id, "eliminar");
+        window.cancelarCita = id => mostrarModal(id, "cancelar");
+
+        filtroFecha.addEventListener("change", cargarCitas);
+        filtroEstado.addEventListener("change", cargarCitas);
+        filtroDoctor.addEventListener("change", cargarCitas);
+
+        cargarDatos().then(cargarCitas);
+    </script>
+
+</body>
+
+</html>

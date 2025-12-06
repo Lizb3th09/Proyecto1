@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pacientes</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Modal */
+        #modalEliminar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #modalEliminar.show {
+            display: block;
+            opacity: 1;
+        }
+
+        #modalEliminar .modal-fondo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+        }
+
+        #modalEliminar .modal-contenido {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            width: 320px;
+            text-align: center;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        #modalEliminar .modal-contenido p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #modalEliminar .modal-botones button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+
+        #modalEliminar #confirmEliminar {
+            background: #d32f2f;
+            color: #fff;
+        }
+
+        #modalEliminar #confirmEliminar:hover {
+            background: #ac2828;
+        }
+
+        #modalEliminar #cancelEliminar {
+            background: #555;
+            color: #fff;
+        }
+
+        #modalEliminar #cancelEliminar:hover {
+            background: #333;
+        }
+
+        .floating-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: width 0.3s ease;
+            width: 50px;
+            /* tamaño cerrado */
+            z-index: 9999;
+        }
+
+        /* Contenido del menú (links) */
+        .menu-content {
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-content a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #8dc6da;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-content a:hover {
+            background-color: rgb(20, 58, 91);
+        }
+
+        /* Botón de abrir/cerrar menú */
+        .menu-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #04374d;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Cuando el menú está abierto */
+        .floating-menu.open {
+            width: 200px;
+        }
+
+        .floating-menu.open .menu-content {
+            display: flex;
+        }
+
+        .contenedor-principal {
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 100px;
+        }
+
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .paciente-form,
+        .lista-pacientes-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .paciente-form {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .lista-pacientes-container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: #ceebf2;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .paciente-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .paciente-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 4px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .paciente-form input[type="submit"] {
+            background: #427c89;
+            color: #fff;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+            transition: 0.3s;
+        }
+
+        .paciente-form input[type="submit"]:hover {
+            background: #45ff5b;
+        }
+
+        #cancelUpdateBtn {
+            display: none;
+            margin-top: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #555;
+            color: white;
+            cursor: pointer;
+        }
+
+        .lista-pacientes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .paciente-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .paciente-card p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .paciente-card .botones-arriba {
+            display: flex;
+            gap: 5px;
+        }
+
+        .paciente-card button {
+            padding: 7px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .editar {
+            background: #4d86ae;
+            flex: 1;
+        }
+
+        .eliminar {
+            background: #ac2828;
+            flex: 1;
+        }
+
+        .historial {
+            background: #267a36;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .editar:hover {
+            background: #21c7c1;
+        }
+
+        .eliminar:hover {
+            background: #d32f2f;
+        }
+
+        .historial:hover {
+            background: #1f5f29;
+        }
+
+        #mensajePaciente {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+
+        .botones-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+
+        #submitBtn {
+            background-color: #427c89;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            /* mismo ancho */
+        }
+
+        #submitBtn:hover {
+            background-color: #3b6a75;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Botón de cancelar */
+        #cancelUpdateBtn {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        #cancelUpdateBtn:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 8px;
+            min-height: 18px;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 13px;
+            min-height: 18px;
+        }
+
+        input.error {
+            border: 2px solid red;
+        }
+
+        input.valid {
+            border: 2px solid green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ FLOTANTE -->
+    <div class="floating-menu" id="floatingMenu">
+        <div class="menu-btn" id="menuBtn">☰</div>
+        <div class="menu-content">
+            <a href="pacientes.html">Pacientes</a>
+            <a href="doctores.html">Doctores</a>
+            <a href="citas.html">Citas</a>
+            <a href="index.html">Inicio</a>
+        </div>
+    </div>
+
+    <div class="contenedor-principal">
+        <div class="contenedor">
+            <!-- FORMULARIO -->
+            <form class="paciente-form" id="formPaciente">
+                <h2>Registrar Paciente</h2>
+                <input type="hidden" id="pacienteId">
+
+                <label>Nombre:</label>
+                <input type="text" id="nombre">
+
+
+
+                <label>Email:</label>
+                <input type="email" id="email">
+
+
+                <label>Teléfono:</label>
+                <input type="tel" id="telefono" maxlength="10" oninput="this.value = this.value.replace(/\D/g,'')">
+
+                <label>Fecha de registro:</label>
+                <input type="date" id="fecha">
+
+                <label>Edad:</label>
+                <input type="number" id="edad" min="1">
+
+                <div class="botones-form">
+                    <input type="submit" id="submitBtn" value="Registrar Paciente">
+                    <button type="button" id="cancelUpdateBtn">Cancelar Actualización</button>
+                </div>
+
+
+                <div id="mensajePaciente"></div>
+            </form>
+
+            <!-- LISTA -->
+            <div class="lista-pacientes-container">
+                <h2>Pacientes Registrados</h2>
+                <input type="text" id="buscadorPacientes" placeholder="Buscar por nombre o ID..."
+                    style="padding:10px; width:95%; margin-bottom:15px; border-radius:8px; border:1px solid #555;">
+                <div id="listaPacientes" class="lista-pacientes"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal eliminar -->
+    <div id="modalEliminar">
+        <div class="modal-fondo"></div>
+        <div class="modal-contenido">
+            <p>¿Estás seguro de eliminar este paciente?</p>
+            <div class="modal-botones">
+                <button id="confirmEliminar">Sí, eliminar</button>
+                <button id="cancelEliminar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+ <script>
+    // MENÚ
+    const menu = document.getElementById('floatingMenu');
+    document.getElementById('menuBtn').onclick = () => menu.classList.toggle('open');
+
+    const formPaciente = document.getElementById("formPaciente");
+    const submitBtn = document.getElementById("submitBtn");
+    const cancelBtn = document.getElementById("cancelUpdateBtn");
+    const listaDiv = document.getElementById("listaPacientes");
+    const mensajeDiv = document.getElementById("mensajePaciente");
+
+    const nombreInput = document.getElementById("nombre");
+    const emailInput = document.getElementById("email");
+    const telefonoInput = document.getElementById("telefono");
+    const fechaInput = document.getElementById("fecha");
+    const edadInput = document.getElementById("edad");
+
+    let pacientes = [];
+    let pacienteAEliminar = null;
+
+    function mostrarMensaje(mensaje, tipo = "info") {
+        const colores = { error: "red", success: "green", info: "black" };
+        mensajeDiv.style.color = colores[tipo] || "black";
+        mensajeDiv.innerHTML = `<p>${mensaje}</p>`;
+        if (tipo === "success") setTimeout(() => mensajeDiv.innerHTML = "", 4000);
+    }
+
+    // ======= VALIDACIÓN Y ERRORES DE CADA INPUT =======
+    function validarCampos() {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const telefonoRegex = /^\d{10}$/;
+        let valid = true;
+
+        // Nombre
+        if (!nombreInput.value.trim()) {
+            nombreInput.classList.add("error");
+            nombreInput.classList.remove("valid");
+            document.getElementById("errorNombre")?.remove();
+            nombreInput.insertAdjacentHTML("afterend", '<div class="error-msg" id="errorNombre">Nombre obligatorio</div>');
+            valid = false;
+        } else {
+            nombreInput.classList.remove("error");
+            nombreInput.classList.add("valid");
+            document.getElementById("errorNombre")?.remove();
+        }
+
+        // Email
+        if (!emailInput.value.trim()) {
+            emailInput.classList.add("error");
+            emailInput.classList.remove("valid");
+            document.getElementById("errorEmail")?.remove();
+            emailInput.insertAdjacentHTML("afterend", '<div class="error-msg" id="errorEmail">Email obligatorio</div>');
+            valid = false;
+        } else if (!emailRegex.test(emailInput.value.trim())) {
+            emailInput.classList.add("error");
+            emailInput.classList.remove("valid");
+            document.getElementById("errorEmail")?.remove();
+            emailInput.insertAdjacentHTML("afterend", '<div class="error-msg" id="errorEmail">Email inválido</div>');
+            valid = false;
+        } else {
+            emailInput.classList.remove("error");
+            emailInput.classList.add("valid");
+            document.getElementById("errorEmail")?.remove();
+        }
+
+        // Teléfono
+        if (!telefonoInput.value.trim()) {
+            telefonoInput.classList.add("error");
+            telefonoInput.classList.remove("valid");
+            document.getElementById("errorTelefono")?.remove();
+            telefonoInput.insertAdjacentHTML("afterend", '<div class="error-msg" id="errorTelefono">Teléfono obligatorio</div>');
+            valid = false;
+        } else if (!telefonoRegex.test(telefonoInput.value.trim())) {
+            telefonoInput.classList.add("error");
+            telefonoInput.classList.remove("valid");
+            document.getElementById("errorTelefono")?.remove();
+            telefonoInput.insertAdjacentHTML("afterend", '<div class="error-msg" id="errorTelefono">Teléfono debe tener 10 dígitos</div>');
+            valid = false;
+        } else {
+            telefonoInput.classList.remove("error");
+            telefonoInput.classList.add("valid");
+            document.getElementById("errorTelefono")?.remove();
+        }
+
+        // Edad
+        if (!edadInput.value || edadInput.value <= 0) {
+            edadInput.classList.add("error");
+            edadInput.classList.remove("valid");
+            document.getElementById("errorEdad")?.remove();
+            edadInput.insertAdjacentHTML("afterend", '<div class="error-msg" id="errorEdad">Edad inválida</div>');
+            valid = false;
+        } else {
+            edadInput.classList.remove("error");
+            edadInput.classList.add("valid");
+            document.getElementById("errorEdad")?.remove();
+        }
+
+        // Botón habilitado solo si todo es válido
+        submitBtn.disabled = !valid;
+
+        return valid;
+    }
+
+    // Validar mientras el usuario escribe
+    [nombreInput, emailInput, telefonoInput, edadInput].forEach(input => {
+        input.addEventListener("input", validarCampos);
+    });
+
+    // Inicialmente deshabilitado
+    submitBtn.disabled = true;
+
+    // ======= RESTO DEL CÓDIGO (SUBMIT, CANCEL, CARGA, MODAL, BUSCADOR) =======
+    formPaciente.addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!validarCampos()) return;
+
+        submitBtn.value = "Procesando...";
+
+        const nuevoPaciente = {
+            nombre: nombreInput.value.trim(),
+            email: emailInput.value.trim(),
+            telefono: telefonoInput.value.trim(),
+            fecha: fechaInput.value,
+            edad: edadInput.value
+        };
+
+        const id = document.getElementById("pacienteId").value;
+        let url = "http://localhost:3000/data/pacientes";
+        let method = "POST";
+
+        if (id) {
+            url += `/${id}`;
+            method = "PUT";
+        }
+
+        try {
+            const resp = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(nuevoPaciente)
+            });
+
+            const data = await resp.json().catch(() => ({}));
+
+            if (!resp.ok) {
+                mostrarMensaje(data.message || "Error del servidor", "error");
+            } else {
+                mostrarMensaje(data.message || (id ? "Paciente actualizado" : "Paciente registrado"), "success");
+                formPaciente.reset();
+                document.getElementById("pacienteId").value = "";
+                submitBtn.value = "Registrar Paciente";
+                cancelBtn.style.display = "none";
+                submitBtn.disabled = true;
+                cargarPacientes();
+            }
+        } catch (error) {
+            mostrarMensaje("No se pudo conectar con el servidor", "error");
+            submitBtn.value = "Registrar Paciente";
+        }
+    });
+
+    cancelBtn.onclick = () => {
+        formPaciente.reset();
+        document.getElementById("pacienteId").value = "";
+        submitBtn.value = "Registrar Paciente";
+        cancelBtn.style.display = "none";
+        submitBtn.disabled = true;
+        mostrarMensaje("", "");
+        document.querySelectorAll(".error-msg").forEach(e => e.remove());
+        [nombreInput, emailInput, telefonoInput, edadInput].forEach(i => i.classList.remove("error", "valid"));
+    };
+
+    async function cargarPacientes() {
+        try {
+            const resp = await fetch("http://localhost:3000/data/pacientes");
+            const data = await resp.json();
+            pacientes = data.data || [];
+            renderPacientes(pacientes);
+        } catch (error) {
+            mostrarMensaje("Error cargando pacientes", "error");
+        }
+    }
+
+    function renderPacientes(lista) {
+        if (!lista.length) {
+            listaDiv.innerHTML = `<p style="padding:20px; text-align:center;">No hay pacientes registrados.</p>`;
+            return;
+        }
+
+        listaDiv.innerHTML = lista.map(p => `
+            <div class="paciente-card">
+                <p>ID: ${p.id} - <strong>${p.nombre}</strong> </p>
+                <p><b>Email:</b> ${p.email}</p>
+                <p><b>Tel:</b> ${p.telefono}</p>
+                <p><b>Fecha:</b> ${p.fecha}</p>
+                <p><b>Edad:</b> ${p.edad}</p>
+
+                <div class="botones-arriba">
+                    <button class="editar" onclick='editarPaciente("${p.id}")'>Editar</button>
+                    <button class="eliminar" onclick='eliminarPaciente("${p.id}")'>Eliminar</button>
+                </div>
+                <button class="historial" onclick='verHistorial("${p.id}")'>Historial</button>
+            </div>
+        `).join('');
+    }
+
+    function editarPaciente(id) {
+        const p = pacientes.find(x => x.id === id);
+        if (!p) return;
+
+        nombreInput.value = p.nombre;
+        emailInput.value = p.email;
+        telefonoInput.value = p.telefono;
+        fechaInput.value = p.fecha;
+        edadInput.value = p.edad;
+        document.getElementById("pacienteId").value = p.id;
+
+        submitBtn.value = "Actualizar Paciente";
+        cancelBtn.style.display = "block";
+        validarCampos();
+    }
+
+    function eliminarPaciente(id) {
+        pacienteAEliminar = id;
+        document.getElementById("modalEliminar").classList.add("show");
+    }
+
+    function cerrarModalEliminar() {
+        pacienteAEliminar = null;
+        document.getElementById("modalEliminar").classList.remove("show");
+    }
+
+    document.getElementById("confirmEliminar").onclick = () => {
+        if (!pacienteAEliminar) return;
+        fetch(`http://localhost:3000/data/pacientes/${pacienteAEliminar}`, { method: "DELETE" })
+            .then(() => {
+                cargarPacientes();
+                cerrarModalEliminar();
+            });
+    };
+
+    document.getElementById("cancelEliminar").onclick = cerrarModalEliminar;
+
+    document.getElementById("buscadorPacientes").addEventListener("input", e => {
+        const f = e.target.value.toLowerCase();
+        const filtrados = pacientes.filter(p =>
+            p.nombre.toLowerCase().includes(f) || p.id.toLowerCase().includes(f)
+        );
+        renderPacientes(filtrados);
+    });
+
+    function verHistorial(id) {
+        window.location.href = `historial_paciente.html?id=${id}`;
+    }
+
+    cargarPacientes();
+</script>
+</body>
+</html>

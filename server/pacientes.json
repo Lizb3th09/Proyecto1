@@ -1,28 +1,28 @@
 {
   "pacientes": [
     {
-      "id": "P001",
-      "nombre": "lalo",
-      "email": "lalo.perez@example.com",
-      "telefono": "333333",
-      "fecha": "11-11-2025",
-      "edad": 24
-    },
-    {
       "id": "P002",
-      "nombre": "lila",
-      "email": "lili.perez@example.com",
-      "telefono": "333333",
-      "fecha": "11-10-2025",
-      "edad": 24
+      "nombre": "eduarda",
+      "email": "lalo@gmail.com",
+      "telefono": "6465563298",
+      "fecha": "2025-11-20",
+      "edad": "24"
     },
     {
       "id": "P003",
       "nombre": "julio",
-      "email": "julio.perez@example.com",
-      "telefono": "333333",
-      "fecha": "11-10-2025",
-      "edad": 3
+      "email": "julio@gmail.com",
+      "telefono": "7676718158",
+      "fecha": "2025-11-28",
+      "edad": "30"
+    },
+    {
+      "id": "P004",
+      "nombre": "hector",
+      "email": "h@gmail.com",
+      "telefono": "3333333333",
+      "fecha": "2025-11-28",
+      "edad": "22"
     }
   ]
 }

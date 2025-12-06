@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Historial de Citas del Paciente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #04374d;
+            margin-bottom: 20px;
+        }
+
+        /* Header de paciente */
+        .paciente-header {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .paciente-header p {
+            margin: 5px 0;
+        }
+
+        /* Contenedor principal */
+        .historial-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #04374d;
+            color: white;
+        }
+
+        .estado {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .programada {
+            background-color: green;
+        }
+
+        .cancelada {
+            background-color: red;
+        }
+
+        .completada {
+            background-color: blue;
+        }
+
+        /* Filtros */
+        .filtros {
+            margin-bottom: 15px;
+        }
+
+        .filtros button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #8dc6da;
+            color: #04374d;
+            transition: 0.3s;
+        }
+
+        .filtros button:hover {
+            background-color: #04374d;
+            color: white;
+        }
+
+        /* Menú flotante */
+        .floating-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: width 0.3s ease;
+            width: 50px;
+            z-index: 9999;
+        }
+
+        .menu-content {
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-content a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #8dc6da;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-content a:hover {
+            background-color: rgb(20, 58, 91);
+        }
+
+        .menu-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #04374d;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .floating-menu.open {
+            width: 200px;
+        }
+
+        .floating-menu.open .menu-content {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ FLOTANTE -->
+    <div class="floating-menu" id="floatingMenu">
+        <div class="menu-btn" id="menuBtn">☰</div>
+        <div class="menu-content">
+            <a href="pacientes.html">Pacientes</a>
+            <a href="doctores.html">Doctores</a>
+            <a href="citas.html">Citas</a>
+            <a href="index.html">Inicio</a>
+        </div>
+    </div>
+
+    <h1>Vista de Historial de Citas del Paciente</h1>
+
+    <!-- Header con datos del paciente -->
+    <div class="paciente-header" id="pacienteHeader">
+        Cargando información del paciente...
+    </div>
+
+    <!-- Filtros de estado -->
+    <div class="historial-container">
+        <div class="filtros">
+            <button data-estado="todas">Todas</button>
+            <button data-estado="programada">Programadas</button>
+            <button data-estado="cancelada">Canceladas</button>
+        
+        </div>
+
+        <!-- Tabla de citas -->
+        <div id="historialTableContainer">
+            Cargando historial...
+        </div>
+    </div>
+
+    <script>
+        // Menú flotante
+        const menu = document.getElementById('floatingMenu');
+        document.getElementById('menuBtn').onclick = () => menu.classList.toggle('open');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const pacienteId = urlParams.get('id');
+
+        let citasGlobal = [];
+
+        // Función para cargar datos del paciente
+        async function cargarPaciente() {
+            try {
+                const res = await fetch(`http://localhost:3000/data/pacientes/${pacienteId}`);
+                const pacienteData = await res.json();
+                const paciente = pacienteData.data || pacienteData;
+
+                document.getElementById('pacienteHeader').innerHTML = `
+                    <p><strong>Nombre:</strong> ${paciente.nombre}</p>
+                    <p><strong>Edad:</strong> ${paciente.edad || '-'}</p>
+                    <p><strong>Teléfono:</strong> ${paciente.telefono || '-'}</p>
+                `;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('pacienteHeader').innerHTML = "Error al cargar información del paciente";
+            }
+        }
+
+        // Función para obtener todos los doctores correctamente
+        async function obtenerDoctores() {
+            try {
+                const res = await fetch('http://localhost:3000/data/doctores');
+                const result = await res.json();
+                const data = result.data || result; // <-- aquí aseguramos tener el array
+                const mapa = {};
+                data.forEach(d => mapa[d.id] = { nombre: d.nombre, especialidad: d.especialidad });
+                return mapa;
+            } catch {
+                return {};
+            }
+        }
+
+        // Función para cargar historial
+        async function cargarHistorial() {
+            try {
+                const res = await fetch(`http://localhost:3000/data/pacientes/${pacienteId}/historial`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                citasGlobal = data.data || data || [];
+                renderizarTabla('todas');
+            } catch (error) {
+                console.error(error);
+                document.getElementById('historialTableContainer').innerHTML =
+                    `<p>Error al cargar el historial: ${error.message}</p>`;
+            }
+        }
+
+        // Función para renderizar la tabla
+        async function renderizarTabla(estadoFiltro) {
+            const container = document.getElementById('historialTableContainer');
+            const doctores = await obtenerDoctores();
+
+            let citasFiltradas = citasGlobal;
+            if (estadoFiltro !== 'todas') {
+                citasFiltradas = citasGlobal.filter(c => c.estado === estadoFiltro);
+            }
+
+            if (!citasFiltradas.length) {
+                container.innerHTML = "<p>Sin citas registradas</p>";
+                return;
+            }
+
+            let html = '<table><thead><tr><th>Fecha</th><th>Hora</th><th>Doctor</th><th>Especialidad</th><th>Motivo</th><th>Estado</th></tr></thead><tbody>';
+
+            citasFiltradas.forEach(cita => {
+                const doc = doctores[cita.doctorId] || {};
+                html += `<tr>
+                    <td>${cita.fecha}</td>
+                    <td>${cita.hora}</td>
+                    <td>${doc.nombre || cita.doctorId}</td>
+                    <td>${doc.especialidad || '-'}</td>
+                    <td>${cita.motivo || '-'}</td>
+                    <td class="estado ${cita.estado}">${cita.estado}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Event listeners para filtros
+        document.querySelectorAll('.filtros button').forEach(btn => {
+            btn.addEventListener('click', () => renderizarTabla(btn.dataset.estado));
+        });
+
+        // Inicializar
+        cargarPaciente();
+        cargarHistorial();
+    </script>
+
+</body>
+
+</html>

@@ -5,7 +5,7 @@
       "nombre": "Dra. María López",
       "especialidad": "cirujano",
       "horarioInicio": "08:00",
-      "horarioFin": "16:00",
+      "horarioFin": "19:00",
       "diasDisponibles": [
         "Lunes",
         "Martes",
@@ -17,7 +17,7 @@
       "nombre": "Dra. xenia",
       "especialidad": "cirujano",
       "horarioInicio": "08:00",
-      "horarioFin": "16:00",
+      "horarioFin": "22:00",
       "diasDisponibles": [
         "Lunes",
         "Miercoles",
@@ -29,11 +29,47 @@
       "nombre": "Dr. yeni",
       "especialidad": "pediatra",
       "horarioInicio": "08:00",
-      "horarioFin": "16:00",
+      "horarioFin": "20:00",
       "diasDisponibles": [
         "Lunes",
         "Miercoles",
+        "Jueves",
         "Viernes"
+      ]
+    },
+    {
+      "id": "D004",
+      "nombre": "Dr. carlitos",
+      "especialidad": "cardiologo",
+      "horarioInicio": "08:00",
+      "horarioFin": "18:00",
+      "diasDisponibles": [
+        "Lunes",
+        "Viernes",
+        "Jueves"
+      ]
+    },
+    {
+      "id": "D005",
+      "nombre": "Dr. natalan",
+      "especialidad": "dentista",
+      "horarioInicio": "08:00",
+      "horarioFin": "18:00",
+      "diasDisponibles": [
+        "Lunes",
+        "Sábado"
+      ]
+    },
+    {
+      "id": "D006",
+      "nombre": "Dr. hector",
+      "especialidad": "ginecologo",
+      "horarioInicio": "06:20",
+      "horarioFin": "15:20",
+      "diasDisponibles": [
+        "Viernes",
+        "Sábado",
+        "Domingo"
       ]
     }
   ]

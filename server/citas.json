@@ -1,31 +1,58 @@
 {
   "citas": [
     {
-      "id": "C001",
-      "pacienteId": "P001",
-      "doctorId": "D001",
-      "fecha": "2025-11-21",
-      "hora": "10:00",
-      "motivo": "Consulta general",
-      "estado": "programada"
+      "id": "C004",
+      "pacienteId": "P003",
+      "doctorId": "D003",
+      "fecha": "2025-12-12",
+      "hora": "13:51",
+      "motivo": "revision",
+      "estado": "cancelada"
     },
     {
-      "id": "C002",
+      "id": "C005",
       "pacienteId": "P002",
-      "doctorId": "D001",
-      "fecha": "2025-11-21",
-      "hora": "08:00",
-      "motivo": "Consulta general",
+      "doctorId": "D003",
+      "fecha": "2025-12-12",
+      "hora": "15:03",
+      "motivo": "revision",
       "estado": "programada"
     },
     {
-      "id": "C003",
+      "id": "C007",
       "pacienteId": "P003",
       "doctorId": "D002",
-      "fecha": "2025-11-21",
-      "hora": "13:00",
-      "motivo": "Consulta general",
-      "estado": "cancelada"
+      "fecha": "2025-12-15",
+      "hora": "15:02",
+      "motivo": "revision",
+      "estado": "programada"
+    },
+    {
+      "id": "C008",
+      "pacienteId": "P003",
+      "doctorId": "D003",
+      "fecha": "2025-12-05",
+      "hora": "13:20",
+      "motivo": "revision",
+      "estado": "programada"
+    },
+    {
+      "id": "C009",
+      "pacienteId": "P004",
+      "doctorId": "D004",
+      "fecha": "2025-12-04",
+      "hora": "13:22",
+      "motivo": "revision",
+      "estado": "programada"
+    },
+    {
+      "id": "C010",
+      "pacienteId": "P002",
+      "doctorId": "D005",
+      "fecha": "2025-12-15",
+      "hora": "09:51",
+      "motivo": "dolor de muela",
+      "estado": "programada"
     }
   ]
 }

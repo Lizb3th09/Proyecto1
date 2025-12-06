@@ -29,10 +29,11 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => { 
-  res.send('<h1>HOSPITAL uwu</h1>'); 
+  res.send('<h1>Hospital Honey 🐝</h1>'); 
 });
 
-
+const cors = require('cors');
+app.use(cors());
 
 // CRUD PACIENTES --------------------------------------------------------------------
 
@@ -56,15 +57,59 @@ app.get('/data/pacientes/:id', (req, res) => {
 });
 
 
-// POST - crear pasientes - CORREGIDO
+// POST - crear pacientes
 app.post('/data/pacientes', (req, res) => {
-  const { nombre, email, telefono,fecha, edad } = req.body;
+  const { nombre, email, telefono, fecha, edad } = req.body;
 
-  // Validaciones básicas
-  if (!nombre || !email || !telefono || !fecha || edad == null || edad <= 0) {
+  // Validaciones específicas
+  if (!nombre || nombre.trim() === "") {
     return res.status(400).json({
       success: false,
-      message: 'Datos incompletos o inválidos'
+      message: "El nombre es obligatorio"
+    });
+  }
+
+  if (!email || email.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "El email es obligatorio"
+    });
+  }
+
+  // Validación de formato de email
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regexEmail.test(email)) {
+    return res.status(400).json({
+      success: false,
+      message: "El email no tiene un formato válido"
+    });
+  }
+
+  if (!telefono || telefono.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "El teléfono es obligatorio"
+    });
+  }
+
+  if (!fecha || fecha.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "La fecha es obligatoria"
+    });
+  }
+
+  if (edad == null) {
+    return res.status(400).json({
+      success: false,
+      message: "La edad es obligatoria"
+    });
+  }
+
+  if (isNaN(edad) || edad <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "La edad debe ser un número mayor a 0"
     });
   }
 
@@ -76,7 +121,7 @@ app.post('/data/pacientes', (req, res) => {
   if (existe) {
     return res.status(400).json({
       success: false,
-      message: 'Email ya registrado'
+      message: "El email ya está registrado"
     });
   }
 
@@ -183,28 +228,89 @@ app.get('/data/doctores/:id', (req, res) => {
   });
 });
 
-// POST - crear doctor - corregido
+
+// POST - crear doctor 
 app.post('/data/doctores', (req, res) => {
   const { nombre, especialidad, horarioInicio, horarioFin, diasDisponibles } = req.body;
 
-  if (!nombre || !especialidad || !horarioInicio || !horarioFin  || !Array.isArray(diasDisponibles) ) {
-    return res.status(400).json({ success: false, message: 'Datos incompletos o inválidos' });
+  // Validación de nombre
+  if (!nombre || nombre.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "El nombre del doctor es obligatorio"
+    });
   }
 
- if (horarioInicio >= horarioFin) return res.status(400).json({ success: false, message: 'Horario de inicio debe ser menor que fin' });
+  // Validación de especialidad
+  if (!especialidad || especialidad.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "La especialidad es obligatoria"
+    });
+  }
 
+  // Validación de horarioInicio
+  if (!horarioInicio || horarioInicio.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "El horario de inicio es obligatorio"
+    });
+  }
 
-  if (diasDisponibles.length === 0) return res.status(400).json({ success: false, message: 'Debe tener almenos un dia disponible' });
+  // Validación de horarioFin
+  if (!horarioFin || horarioFin.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "El horario de fin es obligatorio"
+    });
+  }
 
-  const existe = obtenerDoctores().find(d => d.nombre.toLowerCase() === nombre.toLowerCase() && d.especialidad.toLowerCase() === especialidad.toLowerCase());
-  if (existe) return res.status(400).json({ success: false, message: 'Ya existe un doctor con el mismo nombre y especialidad' });
+  // Validación: inicio < fin
+  if (horarioInicio >= horarioFin) {
+    return res.status(400).json({
+      success: false,
+      message: "El horario de inicio debe ser menor que el horario de fin"
+    });
+  }
 
-  const doctor = crearDoctor( nombre, especialidad, horarioInicio, horarioFin, diasDisponibles);
-  res.status(201).json({
+  // Validación de diasDisponibles
+  if (!Array.isArray(diasDisponibles)) {
+    return res.status(400).json({
+      success: false,
+      message: "Los días disponibles deben ser obligatorio"
+    });
+  }
+
+  if (diasDisponibles.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Debe tener al menos un día disponible"
+    });
+  }
+
+  // Validación de duplicado
+  const existe = obtenerDoctores().find(
+    d =>
+      d.nombre.toLowerCase() === nombre.toLowerCase() &&
+      d.especialidad.toLowerCase() === especialidad.toLowerCase()
+  );
+
+  if (existe) {
+    return res.status(400).json({
+      success: false,
+      message: "Ya existe un doctor con el mismo nombre y especialidad"
+    });
+  }
+
+  // Crear doctor
+  const doctor = crearDoctor(nombre, especialidad, horarioInicio, horarioFin, diasDisponibles);
+
+  return res.status(201).json({
     success: true,
-    message: 'Doctor agregado correctamente'
+    message: "Doctor agregado correctamente"
   });
 });
+
 
 
 // PUT - Actualizar doctor - corregido
@@ -284,16 +390,20 @@ app.get('/data/citas/:id', (req, res) => {
 
 // POST - cita Corregido
 app.post('/data/citas', (req, res) => {
-  let { pacienteId, doctorId, fecha, hora, motivo, estado } = req.body;
+  let { pacienteId, doctorId, fecha, hora, motivo } = req.body;
 
-  // Validación básica de campos
-  if (!pacienteId || !doctorId || !fecha || !hora || !motivo || !estado) {
-    return res.status(400).json({
-      success: false,
-      message: 'Datos incompletos'
-    });
-  }
+  // Validaciones específicas
+ 
+  if (!pacienteId) return res.status(400).json({ success: false, message: 'El campo pacienteId es requerido' });
+  if (!doctorId) return res.status(400).json({ success: false, message: 'El campo doctorId es requerido' });
+  if (!fecha) return res.status(400).json({ success: false, message: 'El campo fecha es requerido' });
+  if (!hora) return res.status(400).json({ success: false, message: 'El campo hora es requerido' });
+  if (!motivo) return res.status(400).json({ success: false, message: 'El campo motivo es requerido' });
 
+  // Asignar estado automáticamente
+  const estado = 'programada';
+
+  
   // Parsear IDs a número
   pacienteId = (pacienteId);
   doctorId = (doctorId);
@@ -327,14 +437,14 @@ app.post('/data/citas', (req, res) => {
   const conflicto = obtenerCitas().find(c => c.doctorId === doctorId && c.fecha === fecha && c.hora === hora);
   if (conflicto) return res.status(400).json({ success: false, message: 'Ya existe otra cita para el doctor a esa hora y fecha' });
 
-  // Crear cita (ID se genera automáticamente en la función)
+  // Crear cita 
   const nuevaCita = crearCita(pacienteId, doctorId, fecha, hora, motivo, estado);
 
   // Responder igual que POST de usuarios
   res.status(201).json({
     success: true,
     message: 'Cita agregada correctamente',
-    data: nuevaCita
+   
   });
 });
 

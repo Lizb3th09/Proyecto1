@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctores</title>
+
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Contenedor principal */
+        .contenedor-principal {
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 100px;
+        }
+
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Formulario y lista */
+        .doctor-form,
+        .lista-doctores-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .doctor-form input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+            /* opcional para que se vea más grande */
+        }
+
+
+
+        .doctor-form {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .lista-doctores-container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: #ceebf2;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .doctor-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .doctor-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .doctor-form input[type="submit"],
+        .doctor-form input[type="button"] {
+            background: #427c89;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .doctor-form input[type="submit"]:hover,
+        .doctor-form input[type="button"]:hover {
+            background: #45ff5b;
+        }
+
+        .success {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Días disponibles */
+        .dias-disponibles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .dias-disponibles input[type="checkbox"] {
+            display: none;
+        }
+
+        .dias-disponibles label {
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 2px solid #8dc6da;
+            background-color: #f0f8ff;
+            color: #04374d;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dias-disponibles input[type="checkbox"]:checked+label {
+            background-color: #04374d;
+            color: #fff;
+            border-color: #04374d;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Lista doctores */
+        .lista-doctores {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .doctor-card {
+             background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .doctor-card h4 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .doctor-card p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .botones {
+            margin: 15px 0 20px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .botones button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            flex: 1 1 auto;
+        }
+
+        .botones .editar {
+            background: #4d86ae;
+        }
+
+        .botones .editar:hover {
+            background: #45a049;
+        }
+
+        .botones .eliminar {
+            background: #aca2dd;
+        }
+
+        .botones .eliminar:hover {
+            background: #d32f2f;
+        }
+
+        .botones .agenda {
+            background: #ffa500;
+        }
+
+        .botones .agenda:hover {
+            background: #ff8c00;
+        }
+
+        /* Modal eliminar */
+        #modalEliminar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-fondo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-contenido {
+            position: relative;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1001;
+            min-width: 250px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-botones {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .modal-botones button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            flex: 1 1 auto;
+        }
+
+        #confirmEliminar {
+            background: #d32f2f;
+        }
+
+        #cancelEliminar {
+            background: #555;
+        }
+
+        #confirmEliminar:hover {
+            background: #b71c1c;
+        }
+
+        #cancelEliminar:hover {
+            background: #333;
+        }
+
+        /* Responsivo */
+        @media (max-width: 500px) {
+
+            .doctor-form input[type="submit"],
+            .doctor-form input[type="button"],
+            .modal-botones button {
+                width: 100%;
+            }
+
+            .doctor-card {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .contenedor {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+
+        /* ================= MENU FLOTANTE ================= */
+        .floating-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: width 0.3s ease;
+            width: 50px;
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #04374d;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .menu-content {
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-content a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #8dc6da;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-content a:hover {
+            background-color: rgb(20, 58, 91);
+        }
+
+        .floating-menu.open {
+            width: 200px;
+        }
+
+        .floating-menu.open .menu-content {
+            display: flex;
+        }
+
+        .botones-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 8px;
+            min-height: 18px;
+        }
+
+
+
+        input.error {
+            border: 2px solid red;
+        }
+
+        input.valid {
+            border: 2px solid green;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 13px;
+            min-height: 18px;
+            margin-bottom: 5px;
+        }
+
+
+        .doctor-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-form input[type="time"],
+        .doctor-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .doctor-form input[type="submit"],
+        .doctor-form input[type="button"] {
+            background: #427c89;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .doctor-form input[type="submit"]:hover,
+        .doctor-form input[type="button"]:hover {
+            background: #45ff5b;
+        }
+
+        /* VALIDACIÓN */
+        input.error {
+            border: 2px solid red !important;
+        }
+
+        input.valid {
+            border: 2px solid green !important;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        /* Días disponibles */
+        .dias-disponibles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .dias-disponibles input[type="checkbox"] {
+            display: none;
+        }
+
+        .dias-disponibles label {
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 2px solid #8dc6da;
+            background-color: #f0f8ff;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .dias-disponibles input[type="checkbox"]:checked+label {
+            background-color: #04374d;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ======= MENÚ FLOTANTE ======= -->
+    <div class="floating-menu" id="floatingMenu">
+        <div class="menu-btn" id="menuBtn">☰</div>
+        <div class="menu-content">
+            <a href="pacientes.html">Pacientes</a>
+            <a href="doctores.html">Doctores</a>
+            <a href="citas.html">Citas</a>
+            <a href="index.html">Inicio</a>
+        </div>
+    </div>
+
+    <div class="contenedor-principal">
+        <div class="contenedor">
+            <form class="doctor-form" id="formDoctor" autocomplete="on">
+                <h2>Registrar Doctor</h2>
+
+                <input type="hidden" id="doctorId"> <!-- ¡Se agregó de nuevo! -->
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre">
+
+                <label for="especialidad">Especialidad:</label>
+                <input type="text" id="especialidad" name="especialidad">
+
+                <label for="horarioInicio">Horario Inicio:</label>
+                <input type="time" id="horarioInicio" name="horarioInicio">
+
+                <label for="horarioFin">Horario Fin:</label>
+                <input type="time" id="horarioFin" name="horarioFin">
+
+                <label>Días Disponibles:</label>
+                <div class="dias-disponibles">
+                    <input type="checkbox" id="lunes" value="Lunes">
+                    <label for="lunes">Lunes</label>
+                    <input type="checkbox" id="martes" value="Martes">
+                    <label for="martes">Martes</label>
+                    <input type="checkbox" id="miercoles" value="Miércoles">
+                    <label for="miercoles">Miércoles</label>
+                    <input type="checkbox" id="jueves" value="Jueves">
+                    <label for="jueves">Jueves</label>
+                    <input type="checkbox" id="viernes" value="Viernes">
+                    <label for="viernes">Viernes</label>
+                    <input type="checkbox" id="sabado" value="Sábado">
+                    <label for="sabado">Sábado</label>
+                    <input type="checkbox" id="domingo" value="Domingo">
+                    <label for="domingo">Domingo</label>
+                </div>
+
+                <input type="submit" id="submitBtn" value="Registrar Doctor">
+                <input type="button" id="cancelBtn" value="Cancelar " style="display:none;">
+
+
+            </form>
+
+            <div class="lista-doctores-container">
+                <h2>Doctores Registrados</h2>
+                <input type="text" id="buscador" placeholder="Buscar doctor por nombre, especialidad o ID..."
+                    style="padding:10px; width:95%; margin-bottom:15px; border-radius:8px; border:1px solid #555;">
+                <div class="lista-doctores" id="listaDoctores"></div>
+                <div id="mensajeDoctor" class="success"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal eliminar -->
+    <div id="modalEliminar">
+        <div class="modal-fondo"></div>
+        <div class="modal-contenido">
+            <p>¿Estás seguro de eliminar este doctor?</p>
+            <div class="modal-botones">
+                <button id="confirmEliminar">Sí, eliminar</button>
+                <button id="cancelEliminar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== MENÚ =====
+        const menu = document.getElementById('floatingMenu');
+        const btn = document.getElementById('menuBtn');
+        btn.addEventListener('click', () => menu.classList.toggle('open'));
+
+        // ===== DOCTORES =====
+        const formDoctor = document.getElementById('formDoctor');
+        const mensajeDiv = document.getElementById('mensajeDoctor');
+        const listaDiv = document.getElementById('listaDoctores');
+        const submitBtn = document.getElementById('submitBtn');
+        let doctores = [];
+
+        formDoctor.addEventListener('submit', enviarDoctor);
+
+        function obtenerDiasSeleccionados() {
+            return Array.from(document.querySelectorAll('.dias-disponibles input[type="checkbox"]:checked')).map(c => c.value);
+        }
+
+        function validarCampos() {
+            const nombre = document.getElementById('nombre');
+            const especialidad = document.getElementById('especialidad');
+            const inicio = document.getElementById('horarioInicio');
+            const fin = document.getElementById('horarioFin');
+            const dias = document.querySelectorAll('.dias-disponibles input');
+
+            // LIMPIAR MENSAJES
+            document.querySelectorAll('.error-msg').forEach(e => e.remove());
+
+            let ok = true;
+            
+
+            // NOMBRE
+            if (!nombre.value.trim()) {
+                nombre.classList.add('error');
+                nombre.classList.remove('valid');
+                nombre.insertAdjacentHTML("afterend", "<div class='error-msg'>Nombre obligatorio</div>");
+                ok = false;
+            } else {
+                nombre.classList.remove('error');
+                nombre.classList.add('valid');
+            }
+
+            // ESPECIALIDAD
+            if (!especialidad.value.trim()) {
+                especialidad.classList.add('error');
+                especialidad.classList.remove('valid');
+                especialidad.insertAdjacentHTML("afterend", "<div class='error-msg'>Especialidad obligatoria</div>");
+                ok = false;
+            } else {
+                especialidad.classList.remove('error');
+                especialidad.classList.add('valid');
+            }
+
+            // INICIO
+            if (!inicio.value) {
+                inicio.classList.add('error');
+                inicio.classList.remove('valid');
+                inicio.insertAdjacentHTML("afterend", "<div class='error-msg'>Horario obligatorio</div>");
+                ok = false;
+            } else {
+                inicio.classList.remove('error');
+                inicio.classList.add('valid');
+            }
+
+            // FIN
+            if (!fin.value) {
+                fin.classList.add('error');
+                fin.classList.remove('valid');
+                fin.insertAdjacentHTML("afterend", "<div class='error-msg'>Horario obligatorio</div>");
+                ok = false;
+            } else if (inicio.value >= fin.value) {
+                fin.classList.add('error');
+                fin.classList.remove('valid');
+                fin.insertAdjacentHTML("afterend", "<div class='error-msg'>Horario fin debe ser mayor al de inicio</div>");
+                ok = false;
+            } else {
+                fin.classList.remove('error');
+                fin.classList.add('valid');
+            }
+
+            // DÍAS
+            const seleccionados = Array.from(dias).filter(d => d.checked);
+            if (seleccionados.length === 0) {
+                document.querySelector(".dias-disponibles")
+                    .insertAdjacentHTML("afterend", "<div class='error-msg'>Seleccione al menos un día</div>");
+                ok = false;
+            }
+
+            submitBtn.disabled = !ok;
+            return ok;
+        }
+
+        // Validación en tiempo real
+        ['nombre', 'especialidad', 'horarioInicio', 'horarioFin']
+            .forEach(id => document.getElementById(id).addEventListener('input', validarCampos));
+
+        document.querySelectorAll('.dias-disponibles input')
+            .forEach(c => c.addEventListener('change', validarCampos));
+
+        formDoctor.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!validarCampos()) return;
+           
+        });
+
+
+        async function enviarDoctor(event) {
+            event.preventDefault();
+            if (!validarCampos()) return;
+
+            const id = document.getElementById('doctorId').value;
+            const nombre = document.getElementById('nombre').value.trim();
+            const especialidad = document.getElementById('especialidad').value.trim();
+            const horarioInicio = document.getElementById('horarioInicio').value;
+            const horarioFin = document.getElementById('horarioFin').value;
+            const diasDisponibles = obtenerDiasSeleccionados();
+
+            submitBtn.disabled = true;
+            submitBtn.value = "Cargando...";
+            mostrarMensaje("Procesando...", "info");
+
+            try {
+                let url = 'http://localhost:3000/data/doctores';
+                let method = 'POST';
+                if (id) {
+                    url += `/${id}`;
+                    method = 'PUT';
+                }
+
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, especialidad, horarioInicio, horarioFin, diasDisponibles })
+                });
+
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) return mostrarMensaje(data.message || "Error servidor", "error");
+
+                mostrarMensaje(data.message || (id ? "Doctor actualizado" : "Doctor registrado"), "success");
+                formDoctor.reset();
+                submitBtn.value = "Registrar Doctor";
+                submitBtn.disabled = false;
+                document.getElementById('doctorId').value = "";
+                cargarDoctores();
+            } catch (e) {
+                mostrarMensaje("No se pudo conectar con el servidor", "error");
+                submitBtn.value = "Registrar Doctor";
+                submitBtn.disabled = false;
+            }
+        }
+
+        function mostrarMensaje(texto, tipo = "info") {
+            let color = tipo === "error" ? "red" : tipo === "success" ? "green" : "black";
+            mensajeDiv.style.color = color;
+            mensajeDiv.innerHTML = `<p>${texto}</p>`;
+            if (tipo === "success") setTimeout(() => mensajeDiv.innerHTML = "", 4000);
+        }
+
+        function editarDoctor(id) {
+            const doc = doctores.find(d => d.id === id);
+            if (!doc) return;
+            document.getElementById('nombre').value = doc.nombre;
+            document.getElementById('especialidad').value = doc.especialidad;
+            document.getElementById('horarioInicio').value = doc.horarioInicio;
+            document.getElementById('horarioFin').value = doc.horarioFin;
+            document.querySelectorAll('.dias-disponibles input[type="checkbox"]').forEach(c => {
+                c.checked = doc.diasDisponibles.includes(c.value);
+            });
+            document.getElementById('doctorId').value = doc.id;
+            submitBtn.value = "Actualizar Doctor";
+        }
+
+        let doctorAEliminar = null;
+        function eliminarDoctor(id) { doctorAEliminar = id; document.getElementById('modalEliminar').style.display = 'flex'; }
+        document.getElementById('confirmEliminar').addEventListener('click', async () => {
+            if (!doctorAEliminar) return;
+            try {
+                const res = await fetch(`http://localhost:3000/data/doctores/${doctorAEliminar}`, { method: 'DELETE' });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) mostrarMensaje(data.message || "Error eliminando doctor", "error");
+                else mostrarMensaje(data.message || "Doctor eliminado", "success");
+                cargarDoctores();
+            } catch (e) { mostrarMensaje("No se pudo conectar con el servidor", "error"); }
+            doctorAEliminar = null;
+            document.getElementById('modalEliminar').style.display = 'none';
+        });
+        document.getElementById('cancelEliminar').addEventListener('click', () => { doctorAEliminar = null; document.getElementById('modalEliminar').style.display = 'none'; });
+
+        // CANCELAR
+        // Inicialmente ocultar el botón Cancelar
+        const cancelBtn = document.getElementById('cancelBtn');
+        cancelBtn.style.display = 'none';
+
+        // CANCELAR
+        cancelBtn.addEventListener('click', () => {
+            formDoctor.reset();
+            document.getElementById('doctorId').value = "";
+            submitBtn.value = "Registrar Doctor";
+            mensajeDiv.innerHTML = "";
+            document.querySelectorAll('.dias-disponibles input[type="checkbox"]').forEach(c => c.checked = false);
+
+            // Ocultar el botón Cancelar después de cancelar
+            cancelBtn.style.display = 'none';
+        });
+
+        // En la función editarDoctor, mostrar el botón
+        function editarDoctor(id) {
+            const doc = doctores.find(d => d.id === id);
+            if (!doc) return;
+            document.getElementById('nombre').value = doc.nombre;
+            document.getElementById('especialidad').value = doc.especialidad;
+            document.getElementById('horarioInicio').value = doc.horarioInicio;
+            document.getElementById('horarioFin').value = doc.horarioFin;
+            document.querySelectorAll('.dias-disponibles input[type="checkbox"]').forEach(c => {
+                c.checked = doc.diasDisponibles.includes(c.value);
+            });
+            document.getElementById('doctorId').value = doc.id;
+            submitBtn.value = "Actualizar Doctor";
+
+            // Mostrar el botón Cancelar al editar
+            cancelBtn.style.display = 'block';
+        }
+
+
+        // BUSCADOR
+        const buscador = document.getElementById('buscador');
+
+        buscador.addEventListener('input', async () => {
+            const texto = buscador.value.trim().toLowerCase();
+
+            // Si el texto tiene formato de ID (por ejemplo D001)
+            const idPattern = /^d\d+$/i;  // empieza con D seguido de números
+            if (idPattern.test(texto)) {
+                try {
+                    const res = await fetch(`http://localhost:3000/data/doctores/${texto.toUpperCase()}`);
+                    if (!res.ok) throw new Error("Doctor no encontrado");
+                    const json = await res.json();
+                    mostrarDoctores([json.data]); // mostrar solo ese doctor
+                } catch (e) {
+                    mostrarDoctores([]); // si no existe, limpiar lista
+                }
+                return;
+            }
+
+            // Si no es ID, filtrar localmente por nombre o especialidad
+            const filtrados = doctores.filter(d =>
+                d.nombre.toLowerCase().includes(texto) ||
+                d.especialidad.toLowerCase().includes(texto)
+            );
+            mostrarDoctores(filtrados);
+        });
+
+
+
+        function mostrarDoctores(lista) {
+            listaDiv.innerHTML = lista.map(d => `
+                <div class="doctor-card">
+                    <p><strong>ID:</strong> ${d.id}</p>
+                    <h4>${d.nombre}</h4>
+                    <p><strong>Especialidad:</strong> ${d.especialidad}</p>
+                    <p><strong>Horario:</strong> ${d.horarioInicio} - ${d.horarioFin}</p>
+                    <p><strong>Días:</strong> ${d.diasDisponibles.join(", ")}</p>
+                    <div class="botones">
+                        <button class="editar" onclick='editarDoctor("${d.id}")'>Editar</button>
+                        <button class="eliminar" onclick='eliminarDoctor("${d.id}")'>Eliminar</button>
+                        <button class="agenda" onclick='verAgenda("${d.id}")'>Ver Agenda</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function cargarDoctores() {
+            try {
+                const res = await fetch('http://localhost:3000/data/doctores');
+                const json = await res.json();
+                doctores = (json.data || []).map(d => ({
+                    id: d.id || d._id,
+                    nombre: d.nombre,
+                    especialidad: d.especialidad,
+                    horarioInicio: d.horarioInicio,
+                    horarioFin: d.horarioFin,
+                    diasDisponibles: d.diasDisponibles || []
+                }));
+                mostrarDoctores(doctores);
+            } catch (e) { console.log("Error cargando doctores", e); }
+        }
+
+        function verAgenda(id) {
+            window.location.href = `Agenda_doctor.html?id=${id}`;
+        }
+
+        cargarDoctores();
+    </script>
+</body>
+
+</html>

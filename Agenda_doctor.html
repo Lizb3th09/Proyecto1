@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda del Doctor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #04374d;
+        }
+
+        .doctor-header {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .agenda-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .filtros button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #8dc6da;
+            color: #04374d;
+            transition: 0.3s;
+        }
+
+        .filtros button:hover {
+            background-color: #04374d;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #04374d;
+            color: white;
+        }
+
+        .estado {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .programada {
+            background-color: green;
+        }
+
+        .cancelada {
+            background-color: red;
+        }
+
+        .slot-libre {
+            background-color: #e0f7fa;
+        }
+
+        .resumen {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+         .floating-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: width 0.3s ease;
+            width: 50px;
+            /* tamaño cerrado */
+            z-index: 9999;
+        }
+
+        /* Contenido del menú (links) */
+        .menu-content {
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-content a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #8dc6da;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-content a:hover {
+            background-color: rgb(20, 58, 91);
+        }
+
+        /* Botón de abrir/cerrar menú */
+        .menu-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #04374d;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Cuando el menú está abierto */
+        .floating-menu.open {
+            width: 200px;
+        }
+
+        .floating-menu.open .menu-content {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Menú flotante -->
+    <div class="floating-menu" id="floatingMenu">
+        <div class="menu-btn" id="menuBtn">☰</div>
+        <div class="menu-content">
+            <a href="pacientes.html">Pacientes</a>
+            <a href="doctores.html">Doctores</a>
+            <a href="citas.html">Citas</a>
+            <a href="index.html">Inicio</a>
+        </div>
+    </div>
+
+    <!-- Header del doctor -->
+    <div class="doctor-header" id="doctorHeader">
+        Cargando información del doctor...
+    </div>
+
+    <!-- Filtros de fecha -->
+    <div class="agenda-container">
+        <div class="filtros">
+            <button data-filtro="hoy">Hoy</button>
+            <button data-filtro="semana">Esta semana</button>
+            <button data-filtro="7dias">Próximos 7 días</button>
+            <button data-filtro="todas">Todas</button> <!-- Nuevo botón -->
+        </div>
+
+        <!-- Tabla de citas -->
+        <div id="agendaTableContainer">Cargando citas...</div>
+
+        <!-- Resumen de citas -->
+        <div class="resumen" id="resumenCitas"></div>
+    </div>
+
+    <script>
+        const menu = document.getElementById('floatingMenu');
+        document.getElementById('menuBtn').onclick = () => menu.classList.toggle('open');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const doctorId = urlParams.get('id');
+
+        let citasGlobal = [];
+
+        async function cargarDoctor() {
+            try {
+                const res = await fetch(`http://localhost:3000/data/doctores/${doctorId}`);
+                const data = await res.json();
+                const doctor = data.data || data || {};
+                document.getElementById('doctorHeader').innerHTML = `
+                    <h2>Dr(a) ${doctor.nombre || doctorId}</h2>
+                    <p><strong>Especialidad:</strong> ${doctor.especialidad || '-'}</p>
+                    <p><strong>Horario:</strong> ${doctor.horarioInicio || '-'} - ${doctor.horarioFin || '-'}</p>
+                    <p><strong>Dias:</strong> ${doctor.diasDisponibles || '-'}</p>
+                `;
+            } catch (e) {
+                console.error(e);
+                document.getElementById('doctorHeader').textContent = "Información del doctor no disponible";
+            }
+        }
+
+        async function cargarCitas() {
+            try {
+                const res = await fetch(`http://localhost:3000/data/citas/doctor/${doctorId}`);
+                const data = await res.json();
+                citasGlobal = data.data || data || [];
+                renderizarTabla('hoy');
+            } catch (e) {
+                console.error(e);
+                document.getElementById('agendaTableContainer').innerHTML = "No se pudieron cargar las citas.";
+            }
+        }
+
+        // Filtrado simple usando startsWith
+        function filtrarPorFecha(filtro) {
+            const hoy = new Date();
+            const hoyStr = hoy.toISOString().slice(0, 10); // "YYYY-MM-DD"
+            let desde = new Date();
+            let hasta = new Date();
+
+            switch (filtro) {
+                case 'hoy':
+                    return citasGlobal.filter(c => c.fecha.startsWith(hoyStr));
+                case 'semana':
+                    const diaSemana = hoy.getDay();
+                    desde.setDate(hoy.getDate() - diaSemana + 1);
+                    desde.setHours(0, 0, 0, 0);
+                    hasta = new Date(desde);
+                    hasta.setDate(desde.getDate() + 6);
+                    hasta.setHours(23, 59, 59, 999);
+                    break;
+                case '7dias':
+                    desde = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+                    hasta = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 7, 23, 59, 59, 999);
+                    break;
+                case 'todas': // Nuevo caso
+                    return citasGlobal; // Devuelve todas las citas sin filtrar por fecha
+            }
+
+            return citasGlobal.filter(c => {
+                const fechaCita = new Date(c.fecha);
+                return fechaCita >= desde && fechaCita <= hasta;
+            });
+        }
+
+        function renderizarTabla(filtro) {
+            const citasFiltradas = filtrarPorFecha(filtro);
+            const container = document.getElementById('agendaTableContainer');
+
+            if (!citasFiltradas.length) {
+                container.innerHTML = "<p>No hay citas para este periodo.</p>";
+                document.getElementById('resumenCitas').textContent = "";
+                return;
+            }
+
+            let html = '<table><thead><tr><th>Paciente</th><th>Fecha</th><th>Hora</th><th>Estado</th><th>Slot</th></tr></thead><tbody>';
+            let totalProgramadas = 0, totalCanceladas = 0;
+
+            citasFiltradas.forEach(c => {
+                totalProgramadas += c.estado === 'programada' ? 1 : 0;
+                totalCanceladas += c.estado === 'cancelada' ? 1 : 0;
+
+                html += `<tr>
+                    <td>${c.pacienteId}</td>
+                    <td>${c.fecha}</td>
+                    <td>${c.hora}</td>
+                    <td class="estado ${c.estado}">${c.estado}</td>
+                    <td class="${c.estado === 'programada' ? '' : 'slot-libre'}">${c.estado === 'programada' ? 'Ocupado' : 'Libre'}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+            document.getElementById('resumenCitas').textContent = `Total programadas: ${totalProgramadas}, Total canceladas: ${totalCanceladas}`;
+        }
+
+        document.querySelectorAll('.filtros button').forEach(btn => {
+            btn.addEventListener('click', () => renderizarTabla(btn.dataset.filtro));
+        });
+
+        cargarDoctor();
+        cargarCitas();
+    </script>
+
+</body>
+
+</html>
