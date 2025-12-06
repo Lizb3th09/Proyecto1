@@ -61,20 +61,27 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 
 # PAGINA PACIENTES
 
-
-<img width="1919" height="920" alt="image" src="https://github.com/user-attachments/assets/a863ff99-4fbe-4d72-86e3-4d054a436cc5" />
-<img width="1910" height="917" alt="image" src="https://github.com/user-attachments/assets/9b46cd86-8a73-4f85-b2e2-e9448af3dca6" />
-<img width="1907" height="905" alt="image" src="https://github.com/user-attachments/assets/00c319e4-6638-4d19-b604-a2b834c2a7d2" />
-<img width="1913" height="920" alt="image" src="https://github.com/user-attachments/assets/9e4e5e6b-f82f-402c-8e0a-377f09621ef3" />
-<img width="1907" height="927" alt="image" src="https://github.com/user-attachments/assets/56062305-a534-464d-a6c8-defcb40edf41" />
-<img width="1906" height="917" alt="image" src="https://github.com/user-attachments/assets/bccee875-9524-44de-b9cb-97976cfd1e32" />
-
-
-<img width="1907" height="926" alt="image" src="https://github.com/user-attachments/assets/5279ec1c-55d2-4560-891a-d485b73511c0" />
-<img width="1913" height="930" alt="image" src="https://github.com/user-attachments/assets/df7e2237-f08e-4311-89a3-87d353e0bf7d" />
-<img width="1907" height="917" alt="image" src="https://github.com/user-attachments/assets/25e81368-36d8-484b-b4d3-ed5831b83f4c" />
-
-
+<img width="1905" height="911" alt="image" src="https://github.com/user-attachments/assets/8a548046-d9a1-43e1-bf58-e29a8e8246ed" />
+<img width="1905" height="916" alt="image" src="https://github.com/user-attachments/assets/51038cb0-ae90-47a4-804c-0afb1f49de39" />
+<img width="1914" height="921" alt="image" src="https://github.com/user-attachments/assets/5db5b7db-671b-4a9e-bcfa-b2a7454a9c8c" />
+<img width="1891" height="907" alt="image" src="https://github.com/user-attachments/assets/3ac47353-76c3-4df9-bf3a-0e72ef25653d" />
+<img width="1905" height="914" alt="image" src="https://github.com/user-attachments/assets/050b0849-4054-4c46-b8e7-7dc4d64dd03b" />
+<img width="1901" height="911" alt="image" src="https://github.com/user-attachments/assets/59331679-41b1-4bfa-8b54-367c94f7d9c2" />
+<img width="1906" height="910" alt="image" src="https://github.com/user-attachments/assets/3b72bf86-a434-4ba5-95df-1b12fe3d549d" />
+<img width="1914" height="919" alt="image" src="https://github.com/user-attachments/assets/8c162a0d-f3d6-452a-b8cc-40bf9bc0d4ac" />
+<img width="1897" height="911" alt="image" src="https://github.com/user-attachments/assets/4579d950-7178-4887-9a01-12e80429c247" />
+<img width="1898" height="914" alt="image" src="https://github.com/user-attachments/assets/146be313-c3c2-4d36-a1f1-76569c84b41e" />
+<img width="1897" height="915" alt="image" src="https://github.com/user-attachments/assets/fda3e79a-dfec-4f3d-8e77-3bbab311521c" />
+<img width="1913" height="918" alt="image" src="https://github.com/user-attachments/assets/4db95f56-3319-46d8-87ed-67ed17d94497" />
+<img width="1904" height="909" alt="image" src="https://github.com/user-attachments/assets/28ef628f-118f-41fa-b4cd-fa756fe069c9" />
+<img width="1907" height="914" alt="image" src="https://github.com/user-attachments/assets/6395147b-a1ea-4109-a45c-d49fedd15db0" />
+<img width="1902" height="910" alt="image" src="https://github.com/user-attachments/assets/62094615-e542-49e6-af11-c19210139397" />
+<img width="1915" height="918" alt="image" src="https://github.com/user-attachments/assets/688b5fc8-1c7c-4b40-ae1a-fc51fdd61594" />
+<img width="1903" height="916" alt="image" src="https://github.com/user-attachments/assets/8dee5d03-6222-498f-8bec-94d9fcd57070" />
+<img width="1905" height="913" alt="image" src="https://github.com/user-attachments/assets/730d4bfd-f9ef-4c75-bcd4-99bd56ae0f8c" />
+<img width="1902" height="913" alt="image" src="https://github.com/user-attachments/assets/0029bd3c-7fda-4fa1-ba56-16a6382d52ca" />
+<img width="1905" height="914" alt="image" src="https://github.com/user-attachments/assets/4b2e2b23-b27e-41be-b202-0175f8164ab8" />
+<img width="1911" height="919" alt="image" src="https://github.com/user-attachments/assets/3318e378-9031-48e2-a9ed-d38ea2567e0b" />
 
 
 
