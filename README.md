@@ -166,71 +166,85 @@ Los flujos de usuario son los siguientes:
 # ENDPOINTS  Implementados
 
 
+
 ## En Dashboard: 
 
-http://localhost:3000/data/pacientes
 
-http://localhost:3000/data/doctores
+GET http://localhost:3000/data/pacientes → Contar pacientes totales y mostrar nombres en las citas de hoy
 
-http://localhost:3000/data/citas
+GET http://localhost:3000/data/doctores → Filtrar doctores activos hoy y mostrar su información en la lista y en las citas
 
-http://localhost:3000/data/citas?fecha=YYYY-MM-DD
+GET http://localhost:3000/data/citas → Contar citas totales y mostrar las citas programadas para hoy
 
-http://localhost:3000/data/estadisticas/doctores
+GET http://localhost:3000/data/citas?fecha=YYYY-MM-DD → Mostrar las citas de la fecha hoy
+
+GET http://localhost:3000/data/estadisticas/doctores → Mostrar el doctor con más citas en el dashboard
+ 
+
+ 
 
 ## En Pacientes :
 
-http://localhost:3000/data/pacientes
 
-http://localhost:3000/data/pacientes/:id (PUT)
+GET http://localhost:3000/data/pacientes → Cargar y mostrar la lista de pacientes
 
-http://localhost:3000/data/pacientes/:id (DELETE)
+POST http://localhost:3000/data/pacientes → Registrar un nuevo paciente
 
-historial_paciente.html?id=:id (navegación)
+PUT http://localhost:3000/data/pacientes/{id} → Actualizar datos de un paciente existente
+
+DELETE http://localhost:3000/data/pacientes/{id} → Eliminar un paciente específico
+
+
+
 
 ## En Historial:
 
 
-GET http://localhost:3000/data/pacientes/:id
+GET http://localhost:3000/data/pacientes/{id} → Cargar y mostrar los datos del paciente
 
-GET http://localhost:3000/data/pacientes/:id/historial
+GET http://localhost:3000/data/pacientes/{id}/historial → Cargar todas las citas del paciente
 
-GET http://localhost:3000/data/doctores
+GET http://localhost:3000/data/doctores → Obtener información de los doctores para mostrar nombre y especialidad en el historial
+
+
 
 ## En citas :
 
-GET http://localhost:3000/data/pacientes
 
-GET http://localhost:3000/data/doctores
+GET http://localhost:3000/data/pacientes → Obtener la lista de pacientes para el formulario y filtro.
 
-GET http://localhost:3000/data/citas?fecha=YYYY-MM-DD&estado=programada 
+GET http://localhost:3000/data/doctores → Obtener la lista de doctores para el formulario y filtro.
 
-POST http://localhost:3000/data/citas
+GET http://localhost:3000/data/citas?fecha={fecha}&estado={estado} → Obtener todas las citas, con filtros de fecha y estado .
 
-DELETE http://localhost:3000/data/citas/{id}
+POST http://localhost:3000/data/citas → Crear una nueva cita con los datos del formulario.
 
-PUT http://localhost:3000/data/citas/{id}/cancelar
+DELETE http://localhost:3000/data/citas/{id} → Eliminar una cita específica.
+
+PUT http://localhost:3000/data/citas/{id}/cancelar → Cambiar el estado de una cita a “cancelada”.
+
 
 
 ## En doctores:
 
-GET http://localhost:3000/data/doctores
 
-POST http://localhost:3000/data/doctores
+GET http://localhost:3000/data/doctores → Obtener la lista completa de doctores para mostrar en la lista y buscador.
 
-GET http://localhost:3000/data/doctores/:id
+GET http://localhost:3000/data/doctores/{id} → Obtener un doctor específico por ID para el buscador o para editarlo.
 
-PUT http://localhost:3000/data/doctores/:id
+POST http://localhost:3000/data/doctores → Registrar un nuevo doctor con los datos del formulario.
 
-DELETE http://localhost:3000/data/doctores/:id
+PUT http://localhost:3000/data/doctores/{id} → Actualizar los datos de un doctor existente por ID.
+
+DELETE http://localhost:3000/data/doctores/{id} → Eliminar un doctor específico por ID mediante el modal de confirmación.
+
 
 ## En agenda:
 
-GET http://localhost:3000/data/doctores/:id
 
-GET http://localhost:3000/data/citas/doctor/:doctorId
+GET http://localhost:3000/data/doctores/{id} → Obtener la información de un doctor específico por su ID. Se usa para mostrar el header con nombre, especialidad, horario y días disponibles.
 
-
+GET http://localhost:3000/data/citas/doctor/{id} → Obtener todas las citas de un doctor específico. Se usa para llenar la tabla de citas y el resumen de programadas/canceladas.
 
 
 ## los manda a pacientes.json , doctores.json y citas.json de esta forma:
