@@ -19,39 +19,30 @@
       "estado": "programada"
     },
     {
-      "id": "C007",
-      "pacienteId": "P003",
-      "doctorId": "D002",
-      "fecha": "2025-12-15",
-      "hora": "15:02",
-      "motivo": "revision",
-      "estado": "programada"
-    },
-    {
       "id": "C008",
       "pacienteId": "P003",
       "doctorId": "D003",
-      "fecha": "2025-12-05",
-      "hora": "13:20",
+      "fecha": "2025-12-06",
+      "hora": "22:20",
       "motivo": "revision",
-      "estado": "programada"
+      "estado": "cancelada"
     },
     {
-      "id": "C009",
-      "pacienteId": "P004",
-      "doctorId": "D004",
-      "fecha": "2025-12-04",
-      "hora": "13:22",
-      "motivo": "revision",
-      "estado": "programada"
-    },
-    {
-      "id": "C010",
+      "id": "C011",
       "pacienteId": "P002",
-      "doctorId": "D005",
-      "fecha": "2025-12-15",
-      "hora": "09:51",
-      "motivo": "dolor de muela",
+      "doctorId": "D002",
+      "fecha": "2025-12-08",
+      "hora": "15:46",
+      "motivo": "dolor",
+      "estado": "programada"
+    },
+    {
+      "id": "C012",
+      "pacienteId": "P002",
+      "doctorId": "D002",
+      "fecha": "2025-12-08",
+      "hora": "14:25",
+      "motivo": "dolor",
       "estado": "programada"
     }
   ]

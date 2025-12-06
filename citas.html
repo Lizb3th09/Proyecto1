@@ -465,10 +465,19 @@
         }
 
         async function cargarCitas() {
-            const resp = await fetch("http://localhost:3000/data/citas");
+            // Construimos la URL solo con los filtros que sí funcionan
+            let url = "http://localhost:3000/data/citas?";
+            if (filtroFecha.value) url += `fecha=${filtroFecha.value}&`;
+            if (filtroEstado.value) url += `estado=${filtroEstado.value}&`;
+
+            const resp = await fetch(url);
             const citas = (await resp.json()).data || [];
 
-            let citasFiltradas = aplicarFiltros(citas);
+            // Aplicamos el filtro de doctor manualmente en frontend
+            let citasFiltradas = citas;
+            if (filtroDoctor.value) {
+                citasFiltradas = citas.filter(c => String(c.doctorId) === filtroDoctor.value);
+            }
 
             if (!citasFiltradas.length) {
                 listaCitasDiv.innerHTML = "<p>No hay citas que coincidan con los filtros.</p>";
@@ -486,21 +495,22 @@
                 const nombreDoctor = doctor ? `${doctor.nombre || "Desconocido"} (${doctor.especialidad || "Sin especialidad"})` : "Desconocido";
 
                 return `
-                    <div class="cita-card" style="background:${cancelada ? '#f8d7da' : '#fff'};">
-                        <p><b>ID:</b> ${id}</p>
-                        <p><b>Paciente:</b> ${nombrePaciente}</p>
-                        <p><b>Doctor:</b> ${nombreDoctor}</p>
-                        <p><b>Fecha:</b> ${c.fecha}</p>
-                        <p><b>Hora:</b> ${c.hora}</p>
-                        <p><b>Motivo:</b> ${c.motivo}</p>
-                        <p><b>Estado:</b> ${c.estado === "cancelada" ? "Cancelada" : "Programada"}</p>
-                        <div class="botones-cita">
-                            <button class="eliminar" onclick='eliminarCita("${id}")'>Eliminar</button>
-                            <button class="cancelar" onclick='cancelarCita("${id}")' ${cancelada ? "disabled" : ""}>Cancelar</button>
-                        </div>
-                    </div>`;
+            <div class="cita-card" style="background:${cancelada ? '#f8d7da' : '#fff'};">
+                <p><b>ID:</b> ${id}</p>
+                <p><b>Paciente:</b> ${nombrePaciente}</p>
+                <p><b>Doctor:</b> ${nombreDoctor}</p>
+                <p><b>Fecha:</b> ${c.fecha}</p>
+                <p><b>Hora:</b> ${c.hora}</p>
+                <p><b>Motivo:</b> ${c.motivo}</p>
+                <p><b>Estado:</b> ${c.estado === "cancelada" ? "Cancelada" : "Programada"}</p>
+                <div class="botones-cita">
+                    <button class="eliminar" onclick='eliminarCita("${id}")'>Eliminar</button>
+                    <button class="cancelar" onclick='cancelarCita("${id}")' ${cancelada ? "disabled" : ""}>Cancelar</button>
+                </div>
+            </div>`;
             }).join('');
         }
+
 
         function aplicarFiltros(citas) {
             const fechaFiltro = filtroFecha.value;

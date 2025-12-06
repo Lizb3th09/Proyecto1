@@ -4,106 +4,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Hospital Honey</title>
+    <title>Inicio - Gestión Clínica</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
             margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #bbe8f8, #ffffff, #baf9fa);
-            /* azul pastel suave */
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
         }
 
-        /* Imagen flotando */
-        .simi-img {
-            width: 220px;
-            border-radius: 50%;
-            border: 5px solid #00fbff;
-            /* borde verde agua pastel */
-            box-shadow: 0 10px 25px rgba(0, 60, 80, 0.25);
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-            z-index: 10;
-            position: relative;
+        h1,
+        h2 {
+            color: #04374d;
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
+        .dashboard,
+        .dashboard-extras {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        /* Contenedor */
-        .central-wrapper {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        .card {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
+            min-width: 180px;
         }
 
-        h1.main-title {
-            font-size: 2.5em;
-            color: #026b80;
-            /* azul teal pastel */
+        .card h2,
+        .card h3 {
+            margin: 0 0 10px;
+            color: #427c89;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .botones-principales {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-bottom: 20px;
-            text-shadow: 0 4px 10px rgba(0, 80, 100, 0.15);
         }
 
-        .central-wrapper h2 {
-            font-size: 1.8em;
-            color: #000000;
-            /* azul profundo */
-            margin-bottom: 20px;
-        }
-
-        /* Botón */
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            background: #0e738f;
-            /* verde agua suave */
-            color: white;
-            font-weight: bold;
+        .botones-principales a {
             text-decoration: none;
-            border-radius: 50px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 10px 20px;
+            background-color: #427c89;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s;
         }
 
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background: #5bbdc6;
-            /* versión más fuerte */
+        .botones-principales a:hover {
+            background-color: #45a049;
+        }
+
+        .citas-hoy-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 50px;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .cita-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        .cita-card.programada {
+            border-color: green;
+        }
+
+        .cita-card.cancelada {
+            border-color: red;
+        }
+
+        .cita-card h3 {
+            margin: 0 0 10px;
+            color: #026b80;
+            font-size: 18px;
+        }
+
+        .cita-card p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .estado {
+            font-weight: bold;
+        }
+
+        .estado.programada {
+            color: green !important;
+        }
+
+        .estado.cancelada {
+            color: red !important;
+        }
+
+        .lista-doctores {
+            margin-top: 20px;
+            width: 90%;
+            max-width: 500px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .lista-doctores h3 {
+            margin-bottom: 10px;
+        }
+
+        .lista-doctores ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .lista-doctores li {
+            padding: 4px 0;
         }
     </style>
 </head>
 
 <body>
-    <img src="a.jpg" alt="Dr. Simi abeja" class="simi-img">
+    <h1>Bienvenido al Sistema de Gestión Clínica</h1>
 
-    <div class="central-wrapper">
-        <h1 class="main-title">HOSPITAL HONEY</h1>
-        <h2>¡Bienvenido!</h2>
-
-        <a href="u.html" class="btn">Ir al Inicio</a>
+    <div class="botones-principales">
+        <a href="pacientes.html">Pacientes</a>
+        <a href="doctores.html">Doctores</a>
+        <a href="citas.html">Citas</a>
     </div>
 
+    <div class="dashboard">
+        <div class="card">
+            <h2 id="totalPacientes">0</h2>
+            <p>Pacientes Registrados</p>
+        </div>
+        <div class="card">
+            <h2 id="totalDoctores">0</h2>
+            <p>Doctores Activos</p>
+        </div>
+        <div class="card">
+            <h2 id="citasHoy">0</h2>
+            <p>Citas Hoy</p>
+        </div>
+        <div class="card">
+            <h2 id="citasProximas">0</h2>
+            <p>Citas Pendientes Próximas 24h</p>
+        </div>
+    </div>
+
+    <div class="dashboard-extras">
+        <div class="card">
+            <h3>Doctor con más citas</h3>
+            <p id="doctorTop">Cargando...</p>
+        </div>
+        <div class="card">
+            <h3>Total de Citas</h3>
+            <p id="totalCitasExtra">0</p>
+        </div>
+    </div>
+
+    <h2>Citas de Hoy</h2>
+    <div class="citas-hoy-container" id="citasHoyContainer"></div>
+
+    <div class="lista-doctores" id="listaDoctoresActivos">
+        <h3>Doctores Activos Hoy:</h3>
+        <ul></ul>
+    </div>
+
+    <script>
+        async function cargarEstadisticas() {
+            try {
+                // Pacientes
+                const resPacientes = await fetch('http://localhost:3000/data/pacientes');
+                const pacientesData = await resPacientes.json();
+                const pacientes = pacientesData.data || [];
+                document.getElementById('totalPacientes').textContent = pacientes.length;
+
+                // Doctores activos hoy (filtrados en frontend)
+                const doctoresActivos = await cargarDoctoresActivosHoy();
+
+                // Total citas
+                const resCitas = await fetch('http://localhost:3000/data/citas');
+                const citasData = await resCitas.json();
+                const citas = citasData.data || [];
+                document.getElementById('totalCitasExtra').textContent = citas.length;
+
+                // Doctor con más citas
+                const resDoctorTop = await fetch('http://localhost:3000/data/estadisticas/doctores');
+                const topDoctorData = await resDoctorTop.json();
+                const topDoctor = topDoctorData.data || topDoctorData;
+                if (topDoctor.nombre) {
+                    document.getElementById('doctorTop').textContent =
+                        `${topDoctor.nombre} - ${topDoctor.especialidad} (${topDoctor.totalCitas} citas)`;
+                }
+
+                // Cargar citas de hoy
+                const hoy = new Date();
+                const today = hoy.getFullYear() + '-' +
+                    String(hoy.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(hoy.getDate()).padStart(2, '0');
+                cargarCitasHoy(pacientes, doctoresActivos, today);
+
+                // Mostrar lista de doctores activos
+                mostrarDoctoresActivos(doctoresActivos);
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function cargarDoctoresActivosHoy() {
+            try {
+                const res = await fetch('http://localhost:3000/data/doctores');
+                const data = await res.json();
+                const doctores = data.data || [];
+
+                const ahora = new Date();
+                const horaActual = ahora.getHours().toString().padStart(2, "0") + ":" +
+                    ahora.getMinutes().toString().padStart(2, "0");
+                const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+                const diaSemana = dias[ahora.getDay()];
+
+                // Filtrar doctores según día y horario
+                const doctoresActivos = doctores.filter(d =>
+                    d.diasDisponibles.includes(diaSemana) &&
+                    d.horarioInicio <= horaActual &&
+                    d.horarioFin >= horaActual
+                );
+
+                document.getElementById('totalDoctores').textContent = doctoresActivos.length;
+                return doctoresActivos;
+
+            } catch (e) {
+                console.error("Error cargando doctores activos:", e);
+                document.getElementById('totalDoctores').textContent = "0";
+                return [];
+            }
+        }
+
+        async function cargarCitasHoy(pacientes, doctores, fecha) {
+            try {
+                const url = `http://localhost:3000/data/citas?fecha=${fecha}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const citasHoy = data.data || [];
+                document.getElementById('citasHoy').textContent = citasHoy.length;
+
+                mostrarCitas(citasHoy, pacientes, doctores);
+            } catch (e) {
+                console.error("Error cargando citas:", e);
+                document.getElementById('citasHoyContainer').innerHTML = "<p>Error cargando citas.</p>";
+            }
+        }
+
+        function mostrarCitas(citas, pacientes, doctores) {
+            const container = document.getElementById("citasHoyContainer");
+            container.innerHTML = "";
+
+            if (!citas.length) {
+                container.innerHTML = "<p>No hay citas para hoy.</p>";
+                return;
+            }
+
+            citas.forEach(cita => {
+                const estadoClass = cita.estado.toLowerCase() === "programada" ? "programada" :
+                    cita.estado.toLowerCase() === "cancelada" ? "cancelada" : "";
+
+                const pacienteNombre = pacientes.find(p => p.id === cita.pacienteId)?.nombre || cita.pacienteId;
+                const doctorNombre = doctores.find(d => d.id === cita.doctorId)?.nombre || cita.doctorId;
+
+                const card = document.createElement("div");
+                card.className = `cita-card ${estadoClass}`;
+                card.innerHTML = `
+                    <h3>${cita.hora}</h3>
+                    <p><strong>Paciente:</strong> ${pacienteNombre}</p>
+                    <p><strong>Doctor:</strong> ${doctorNombre}</p>
+                    <p class="estado ${estadoClass}">${cita.estado}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function mostrarDoctoresActivos(doctores) {
+            const ul = document.querySelector("#listaDoctoresActivos ul");
+            ul.innerHTML = "";
+            if (doctores.length === 0) {
+                ul.innerHTML = "<li>No hay doctores activos hoy</li>";
+                return;
+            }
+            doctores.forEach(d => {
+                const li = document.createElement("li");
+                li.textContent = `${d.nombre} - ${d.especialidad} (${d.horarioInicio} a ${d.horarioFin})`;
+                ul.appendChild(li);
+            });
+        }
+
+        cargarEstadisticas();
+    </script>
 </body>
 
 </html>

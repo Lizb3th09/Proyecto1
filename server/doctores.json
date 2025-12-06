@@ -1,26 +1,13 @@
 {
   "doctores": [
     {
-      "id": "D001",
-      "nombre": "Dra. María López",
-      "especialidad": "cirujano",
-      "horarioInicio": "08:00",
-      "horarioFin": "19:00",
-      "diasDisponibles": [
-        "Lunes",
-        "Martes",
-        "Viernes"
-      ]
-    },
-    {
       "id": "D002",
       "nombre": "Dra. xenia",
       "especialidad": "cirujano",
       "horarioInicio": "08:00",
-      "horarioFin": "22:00",
+      "horarioFin": "23:00",
       "diasDisponibles": [
         "Lunes",
-        "Miercoles",
         "Viernes"
       ]
     },
@@ -38,18 +25,6 @@
       ]
     },
     {
-      "id": "D004",
-      "nombre": "Dr. carlitos",
-      "especialidad": "cardiologo",
-      "horarioInicio": "08:00",
-      "horarioFin": "18:00",
-      "diasDisponibles": [
-        "Lunes",
-        "Viernes",
-        "Jueves"
-      ]
-    },
-    {
       "id": "D005",
       "nombre": "Dr. natalan",
       "especialidad": "dentista",
@@ -62,13 +37,23 @@
     },
     {
       "id": "D006",
-      "nombre": "Dr. hector",
-      "especialidad": "ginecologo",
-      "horarioInicio": "06:20",
-      "horarioFin": "15:20",
+      "nombre": "Dr. jose Gambiño",
+      "especialidad": "cirujano",
+      "horarioInicio": "09:41",
+      "horarioFin": "15:41",
       "diasDisponibles": [
-        "Viernes",
-        "Sábado",
+        "Martes",
+        "Jueves"
+      ]
+    },
+    {
+      "id": "D007",
+      "nombre": "Dr. Alberto",
+      "especialidad": "dentista",
+      "horarioInicio": "11:38",
+      "horarioFin": "12:37",
+      "diasDisponibles": [
+        "Martes",
         "Domingo"
       ]
     }
