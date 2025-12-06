@@ -1,3 +1,24 @@
+Tecnológico Nacional de México Instituto Tecnológico de Ensenada
+
+Asignatura: Frontend 1 Docente: Xenia Padilla Actividad: Proyecto Final Nombre del estudiante: Rosa Lizbeth Barcenas Mancilla: C21930200 Grupo: 8SE Fecha de entrega: 05/12/2025
+
+# Instrucciones de instalación.
+
+Las instrucciones para ejecutar el backend son las siguientes:
+
+Instalar NODE y ExpressJS.
+
+con node corremos el comando.
+
+- npm i
+
+## Para correr el servidor utilizamos uno de los siguientes comandos:
+
+(para modo desarrollo, con errores más especificos) npm run dev
+
+(para modo producción) npm run start
+
+
 # 🏥 Práctica Integradora: Sistema de Gestión de Citas Médicas
 
 Este proyecto consiste en desarrollar un **sistema backend** que permita gestionar pacientes, doctores y citas médicas. El objetivo principal es digitalizar un proceso que actualmente se realiza en papel dentro de una clínica médica.
@@ -150,13 +171,16 @@ Eliminar doctores - http://localhost:3000/data/doctores/D001
 
 Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 
+# Screenshots
 
 
+# DASHBOARD
 
 <img width="1912" height="917" alt="image" src="https://github.com/user-attachments/assets/f431ea67-766d-4042-8bdc-9b7bf8fb0122" />
 <img width="1902" height="906" alt="image" src="https://github.com/user-attachments/assets/2d600cfa-aec1-4bbc-adb4-986a9296bfd9" />
 <img width="1915" height="926" alt="image" src="https://github.com/user-attachments/assets/d259eeec-7d13-400c-a4e1-040f972f22a7" />
 
+# PAGINA PACIENTES
 
 <img width="1919" height="920" alt="image" src="https://github.com/user-attachments/assets/a863ff99-4fbe-4d72-86e3-4d054a436cc5" />
 <img width="1907" height="927" alt="image" src="https://github.com/user-attachments/assets/56062305-a534-464d-a6c8-defcb40edf41" />
@@ -165,8 +189,6 @@ Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 <img width="1913" height="920" alt="image" src="https://github.com/user-attachments/assets/9e4e5e6b-f82f-402c-8e0a-377f09621ef3" />
 <img width="1906" height="917" alt="image" src="https://github.com/user-attachments/assets/bccee875-9524-44de-b9cb-97976cfd1e32" />
 <img width="1907" height="926" alt="image" src="https://github.com/user-attachments/assets/5279ec1c-55d2-4560-891a-d485b73511c0" />
-<img width="1911" height="921" alt="image" src="https://github.com/user-attachments/assets/38f05877-4f70-433a-bacc-ed7979d3b8f0" />
-<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/88851ac3-ceb3-4693-913d-9219a915fabc" />
 <img width="1917" height="922" alt="image" src="https://github.com/user-attachments/assets/ea1a6b05-61bf-4e20-bd43-8780aa136773" />
 <img width="1908" height="919" alt="image" src="https://github.com/user-attachments/assets/7a68c0dd-0bcd-4de4-a228-3ebc5aff6bfe" />
 <img width="1909" height="922" alt="image" src="https://github.com/user-attachments/assets/b81cee51-c38b-4b3c-8959-97441178c8e6" />
@@ -177,10 +199,12 @@ Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 
 
 
-
+<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/88851ac3-ceb3-4693-913d-9219a915fabc" />
+<img width="1911" height="921" alt="image" src="https://github.com/user-attachments/assets/38f05877-4f70-433a-bacc-ed7979d3b8f0" />
 <img width="1911" height="918" alt="image" src="https://github.com/user-attachments/assets/b2db3c57-6acb-4ea9-9458-7c389592e3c9" />
-<img width="1912" height="924" alt="image" src="https://github.com/user-attachments/assets/dc7c722b-1722-432f-a6f0-93febb7d96e9" />
-<img width="1917" height="927" alt="image" src="https://github.com/user-attachments/assets/824bcb77-4c4f-45f2-9aa9-8eef6f0b4948" />
+
+# PAGINA DOCTORES
+
 <img width="1916" height="923" alt="image" src="https://github.com/user-attachments/assets/e9a7d079-8f12-41d9-b705-e27805e1c15b" />
 <img width="1915" height="925" alt="image" src="https://github.com/user-attachments/assets/18912a37-cc93-43ee-b7f1-6193fa624db2" />
 <img width="1904" height="919" alt="image" src="https://github.com/user-attachments/assets/55918ea2-d001-420a-aef9-90c35f8ecca1" />
@@ -191,6 +215,11 @@ Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 
 
 
+
+# PAGINA CITAS
+
+<img width="1912" height="924" alt="image" src="https://github.com/user-attachments/assets/dc7c722b-1722-432f-a6f0-93febb7d96e9" />
+<img width="1917" height="927" alt="image" src="https://github.com/user-attachments/assets/824bcb77-4c4f-45f2-9aa9-8eef6f0b4948" />
 <img width="1900" height="923" alt="image" src="https://github.com/user-attachments/assets/659af6c0-1348-449e-aa99-3660e684b5a3" />
 <img width="1895" height="920" alt="image" src="https://github.com/user-attachments/assets/bec781de-9d0d-4bc8-a9bf-93678298503c" />
 <img width="1910" height="913" alt="image" src="https://github.com/user-attachments/assets/465bf2ac-f2bd-4b7e-b0a9-3f5da4264cd3" />
