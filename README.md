@@ -169,46 +169,65 @@ Los flujos de usuario son los siguientes:
 ## En Dashboard: 
 
 http://localhost:3000/data/pacientes
+
 http://localhost:3000/data/doctores
+
 http://localhost:3000/data/citas
+
 http://localhost:3000/data/citas?fecha=YYYY-MM-DD
+
 http://localhost:3000/data/estadisticas/doctores
 
 ## En Pacientes :
 
 http://localhost:3000/data/pacientes
+
 http://localhost:3000/data/pacientes/:id (PUT)
+
 http://localhost:3000/data/pacientes/:id (DELETE)
+
 historial_paciente.html?id=:id (navegación)
 
 ## En Historial:
 
 
 GET http://localhost:3000/data/pacientes/:id
+
 GET http://localhost:3000/data/pacientes/:id/historial
+
 GET http://localhost:3000/data/doctores
 
 ## En citas :
 
 GET http://localhost:3000/data/pacientes
+
 GET http://localhost:3000/data/doctores
+
 GET http://localhost:3000/data/citas?fecha=YYYY-MM-DD&estado=programada 
+
 POST http://localhost:3000/data/citas
+
 DELETE http://localhost:3000/data/citas/{id}
+
 PUT http://localhost:3000/data/citas/{id}/cancelar
 
 
 ## En doctores:
 
 GET http://localhost:3000/data/doctores
+
 POST http://localhost:3000/data/doctores
+
 GET http://localhost:3000/data/doctores/:id
+
 PUT http://localhost:3000/data/doctores/:id
+
 DELETE http://localhost:3000/data/doctores/:id
 
 ## En agenda:
 
 GET http://localhost:3000/data/doctores/:id
+
 GET http://localhost:3000/data/citas/doctor/:doctorId
 
 
