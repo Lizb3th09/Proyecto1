@@ -192,19 +192,19 @@ Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 <img width="1917" height="922" alt="image" src="https://github.com/user-attachments/assets/ea1a6b05-61bf-4e20-bd43-8780aa136773" />
 <img width="1908" height="919" alt="image" src="https://github.com/user-attachments/assets/7a68c0dd-0bcd-4de4-a228-3ebc5aff6bfe" />
 <img width="1909" height="922" alt="image" src="https://github.com/user-attachments/assets/b81cee51-c38b-4b3c-8959-97441178c8e6" />
-<img width="1910" height="922" alt="image" src="https://github.com/user-attachments/assets/18ac5dda-a167-4d8b-a4bd-0a38076adfb9" />
-<img width="1907" height="913" alt="image" src="https://github.com/user-attachments/assets/6f93d72d-b098-4550-a066-d7357e0ea9bf" />
 <img width="1909" height="914" alt="image" src="https://github.com/user-attachments/assets/6beb2f14-f5df-4d75-98c2-c5e684fe5fe1" />
 <img width="1914" height="923" alt="image" src="https://github.com/user-attachments/assets/658d9be9-3b2b-4a5a-baae-f254fa37eb2a" />
 
 
 
-<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/88851ac3-ceb3-4693-913d-9219a915fabc" />
-<img width="1911" height="921" alt="image" src="https://github.com/user-attachments/assets/38f05877-4f70-433a-bacc-ed7979d3b8f0" />
-<img width="1911" height="918" alt="image" src="https://github.com/user-attachments/assets/b2db3c57-6acb-4ea9-9458-7c389592e3c9" />
-
 # PAGINA DOCTORES
 
+
+<img width="1911" height="921" alt="image" src="https://github.com/user-attachments/assets/38f05877-4f70-433a-bacc-ed7979d3b8f0" />
+<img width="1911" height="918" alt="image" src="https://github.com/user-attachments/assets/b2db3c57-6acb-4ea9-9458-7c389592e3c9" />
+<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/88851ac3-ceb3-4693-913d-9219a915fabc" />
+<img width="1907" height="913" alt="image" src="https://github.com/user-attachments/assets/6f93d72d-b098-4550-a066-d7357e0ea9bf" />
+<img width="1910" height="922" alt="image" src="https://github.com/user-attachments/assets/18ac5dda-a167-4d8b-a4bd-0a38076adfb9" />
 <img width="1916" height="923" alt="image" src="https://github.com/user-attachments/assets/e9a7d079-8f12-41d9-b705-e27805e1c15b" />
 <img width="1915" height="925" alt="image" src="https://github.com/user-attachments/assets/18912a37-cc93-43ee-b7f1-6193fa624db2" />
 <img width="1904" height="919" alt="image" src="https://github.com/user-attachments/assets/55918ea2-d001-420a-aef9-90c35f8ecca1" />
@@ -212,14 +212,14 @@ Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 <img width="1910" height="917" alt="image" src="https://github.com/user-attachments/assets/a704bc85-195b-4cf9-8274-108726454ac0" />
 <img width="1915" height="920" alt="image" src="https://github.com/user-attachments/assets/9e4637eb-b701-4fa9-a7fa-4444a8b306da" />
 <img width="1909" height="916" alt="image" src="https://github.com/user-attachments/assets/d3770dd8-4296-4548-9a43-1d697b09785d" />
-
+<img width="1912" height="924" alt="image" src="https://github.com/user-attachments/assets/dc7c722b-1722-432f-a6f0-93febb7d96e9" />
+<img width="1917" height="927" alt="image" src="https://github.com/user-attachments/assets/824bcb77-4c4f-45f2-9aa9-8eef6f0b4948" />
 
 
 
 # PAGINA CITAS
 
-<img width="1912" height="924" alt="image" src="https://github.com/user-attachments/assets/dc7c722b-1722-432f-a6f0-93febb7d96e9" />
-<img width="1917" height="927" alt="image" src="https://github.com/user-attachments/assets/824bcb77-4c4f-45f2-9aa9-8eef6f0b4948" />
+
 <img width="1900" height="923" alt="image" src="https://github.com/user-attachments/assets/659af6c0-1348-449e-aa99-3660e684b5a3" />
 <img width="1895" height="920" alt="image" src="https://github.com/user-attachments/assets/bec781de-9d0d-4bc8-a9bf-93678298503c" />
 <img width="1910" height="913" alt="image" src="https://github.com/user-attachments/assets/465bf2ac-f2bd-4b7e-b0a9-3f5da4264cd3" />
