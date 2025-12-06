@@ -166,61 +166,55 @@ Los flujos de usuario son los siguientes:
 # ENDPOINTS  Implementados
 
 
-## GET - consultar
+## En Dashboard: 
 
-ver citas - http://localhost:3000/data/citas
+http://localhost:3000/data/pacientes
+http://localhost:3000/data/doctores
+http://localhost:3000/data/citas
+http://localhost:3000/data/citas?fecha=YYYY-MM-DD
+http://localhost:3000/data/estadisticas/doctores
 
-ver doctores - http://localhost:3000/data/doctores
+## En Pacientes :
 
-Ver pacientes - http://localhost:3000/data/pacientes
+http://localhost:3000/data/pacientes
+http://localhost:3000/data/pacientes/:id (PUT)
+http://localhost:3000/data/pacientes/:id (DELETE)
+historial_paciente.html?id=:id (navegación)
 
---- 
-
-## GET - consultar por id
-
-ver citas por id - http://localhost:3000/data/citas/C002
-
-ver doctores por id - http://localhost:3000/data/doctores/D001
-
-Ver pacientes por id - http://localhost:3000/data/pacientes/P003
-
---- 
-
-VER historial paciente - http://localhost:3000/data/pacientes/P001/historial
-
-ver agenda de un doctor - http://localhost:3000/data/citas/doctor/D001
-
-ver por especialidad - http://localhost:3000/data/doctores/especialidad/ginecologo
-
---- 
-
-## GET - ESTADISTICAS
-
-ver doctor con mas citas  - http://localhost:3000/data/estadisticas/doctores
-
-ver especialidad mas solicitada - http://localhost:3000/data/estadisticas/especialidades
-
---- 
-
-## GET- BUSQUEDAS AVANZADAS
-
-ver por citas por fecha - http://localhost:3000/data/citas?fecha=2025-11-19
-
-ver cita por fecha y estado - http://localhost:3000/data/citas?fecha=2025-11-19&estado=programada
-
-ver citas programadas - http://localhost:3000/data/citas?estado=programada
-
-ver doctores disponibles a una fecha y hora - http://localhost:3000/data/doctores/disponibles?fecha=2025-11-21&hora=12:00
+## En Historial:
 
 
---- 
+GET http://localhost:3000/data/pacientes/:id
+GET http://localhost:3000/data/pacientes/:id/historial
+GET http://localhost:3000/data/doctores
+
+## En citas :
+
+GET http://localhost:3000/data/pacientes
+GET http://localhost:3000/data/doctores
+GET http://localhost:3000/data/citas?fecha=YYYY-MM-DD&estado=programada 
+POST http://localhost:3000/data/citas
+DELETE http://localhost:3000/data/citas/{id}
+PUT http://localhost:3000/data/citas/{id}/cancelar
+
+
+## En doctores:
+
+GET http://localhost:3000/data/doctores
+POST http://localhost:3000/data/doctores
+GET http://localhost:3000/data/doctores/:id
+PUT http://localhost:3000/data/doctores/:id
+DELETE http://localhost:3000/data/doctores/:id
+
+## En agenda:
+
+GET http://localhost:3000/data/doctores/:id
+GET http://localhost:3000/data/citas/doctor/:doctorId
 
 
 
 
-## POST - crear
-
-
+## los manda a pacientes.json , doctores.json y citas.json de esta forma:
 
 nuevo doctor 
 
@@ -263,36 +257,16 @@ nuevo paciente
 --- 
 
 
-## PUT - Modificar
-
-
-cancelar cita - http://localhost:3000/data/citas/C001/cancelar
-
-modificar doctores - http://localhost:3000/data/doctores/D004  
-
-modificar pacientes - http://localhost:3000/data/pacientes/P003
-
-
---- 
-
-
-## DELETE - Eliminar
-
-
-Eliminar citas - http://localhost:3000/data/citas/C005
-
-Eliminar doctores - http://localhost:3000/data/doctores/D001
-
-Eliminar pacientes - http://localhost:3000/data/pacientes/P003
 
 
 
 
 
+# Problemas encontrados y soluciones implementadas
 
 
-
-
-
-
+- debe de haber un periodo de tiempo de espera para agendar otra cita
+   ejemplo: hay una cita 4:10 no deberia permitirme agendar otra cita  a las 4:11 con ese doctor , debe ver un tiempo
+- mejorar el diseño de todas las ventanas: tener una mejor diseño y tener un ajuste de tamaño ,aun que ya sea responsiva la pagina.
+- si se elimina un doctor oh paciente , es cita debe aunto cancelarse y eliminarse.
 
