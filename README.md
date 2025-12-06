@@ -29,7 +29,7 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 --- 
 
 
-# PRUEBAS  DE LOS ENDPOINTS EN POSTMAN:
+# ENDPOINTS  Implementados
 
 
 ## GET - consultar
@@ -77,7 +77,6 @@ ver cita por fecha y estado - http://localhost:3000/data/citas?fecha=2025-11-19&
 ver citas programadas - http://localhost:3000/data/citas?estado=programada
 
 ver doctores disponibles a una fecha y hora - http://localhost:3000/data/doctores/disponibles?fecha=2025-11-21&hora=12:00
-
 
 
 --- 
