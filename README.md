@@ -118,6 +118,12 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 <img width="1884" height="913" alt="image" src="https://github.com/user-attachments/assets/96d39e2c-7a76-40a3-b43a-89812e1533ad" />
 <img width="1861" height="918" alt="image" src="https://github.com/user-attachments/assets/947b6323-e2c6-4f16-8b32-86c7e4b18bbc" />
 <img width="1883" height="912" alt="image" src="https://github.com/user-attachments/assets/1289772c-0df3-4d0f-a494-5209d65a6025" />
+<img width="1917" height="978" alt="image" src="https://github.com/user-attachments/assets/3ec5f4cd-525c-484b-8690-f3538050a4eb" />
+<img width="1882" height="914" alt="image" src="https://github.com/user-attachments/assets/e6a9ab10-f644-4f76-8aed-9e98a367c91b" />
+<img width="1877" height="919" alt="image" src="https://github.com/user-attachments/assets/bc36a281-cbb7-4b83-91cd-af4dccada070" />
+<img width="1876" height="915" alt="image" src="https://github.com/user-attachments/assets/ef00ab68-6d6d-4410-b092-81682a380029" />
+<img width="1885" height="917" alt="image" src="https://github.com/user-attachments/assets/7c16e675-795e-421f-9dec-88d325ccc52b" />
+
 
 
 
