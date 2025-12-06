@@ -55,7 +55,7 @@ El sistema debe garantizar la disponibilidad de doctores, evitar citas duplicada
 
 # DASHBOARD
 
-<img width="1912" height="917" alt="image" src="https://github.com/user-attachments/assets/f431ea67-766d-4042-8bdc-9b7bf8fb0122" />
+
 <img width="1902" height="906" alt="image" src="https://github.com/user-attachments/assets/2d600cfa-aec1-4bbc-adb4-986a9296bfd9" />
 <img width="1915" height="926" alt="image" src="https://github.com/user-attachments/assets/d259eeec-7d13-400c-a4e1-040f972f22a7" />
 
